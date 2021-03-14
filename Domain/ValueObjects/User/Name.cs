@@ -1,18 +1,18 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Domain.ValueObjects {
-    public sealed record Email {
+namespace Domain.ValueObjects.User {
+    public sealed record Name {
         public string Value { get; }
 
         public static readonly Regex Validator = new Regex(
-            @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$",
+            @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
             RegexOptions.Singleline | RegexOptions.Compiled
         );
 
-        public Email(string value) {
+        public Name(string value) {
             if (!Validator.IsMatch(value)) {
-                throw new ArgumentException($"{value} is invalid email address.");
+                throw new ArgumentException($"{value} is invalid name value.");
             }
 
             Value = value;

@@ -1,6 +1,6 @@
 using System;
 
-namespace Domain.ValueObjects {
+namespace Domain.ValueObjects.User {
     public sealed record Age {
         public int Value { get; }
 

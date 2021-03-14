@@ -1,4 +1,4 @@
-using Domain.ValueObjects;
+using Domain.ValueObjects.User;
 
 namespace Database.User {
     public sealed record UserModel {

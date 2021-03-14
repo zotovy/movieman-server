@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 
 
-namespace Domain.Movie.ValueObjects {
+namespace Domain.ValueObjects.Movie {
 
     public static class AvailableGenres {
         public static readonly string[] availableGenres = {

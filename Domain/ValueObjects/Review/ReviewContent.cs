@@ -1,6 +1,6 @@
 using System;
 
-namespace Domain.Review.ValueObjects {
+namespace Domain.ValueObjects.Review {
     public sealed record ReviewContent {
         public string Value { get; }
 

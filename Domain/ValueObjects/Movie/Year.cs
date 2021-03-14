@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Domain.Movie.ValueObjects {
+namespace Domain.ValueObjects.Movie {
     public sealed record Year {
         public string Value { get; }
 
