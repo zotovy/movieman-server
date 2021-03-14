@@ -1,3 +1,4 @@
+using Database.Review;
 using Database.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace Database {
         public DatabaseContext() {}
 
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<ReviewModel> Reviews { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=7852");

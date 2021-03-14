@@ -5,52 +5,22 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210314183015_ReviewModel")]
+    partial class ReviewModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "6.0.0-preview.2.21154.2")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-            modelBuilder.Entity("Database.Review.ReviewModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("Author")
-                        .HasColumnType("bigint");
-
-                    b.Property<List<long>>("Comments")
-                        .HasColumnType("bigint[]");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("varchar(1000)")
-                        .HasColumnName("Content");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<long>("Movie")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("double precision")
-                        .HasColumnName("Rating");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reviews");
-                });
 
             modelBuilder.Entity("Database.User.UserModel", b =>
                 {

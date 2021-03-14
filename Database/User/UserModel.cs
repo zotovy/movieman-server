@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Domain;
 using Domain.ValueObjects.Movie;
@@ -27,7 +24,7 @@ namespace Database.User {
                 Password = new Password(model.Password),
                 Name = new Name(model.Name),
                 Comments = model.Comments.Select(c => new Ref<Comment>(c)).ToList(),
-                Reviews = model.Reviews.Select(c => new Ref<Review>(c)).ToList(),
+                Reviews = model.Reviews.Select(c => new Ref<Domain.Review>(c)).ToList(),
                 Movies = model.Movies.Select(c => new Ref<Movie>(c)).ToList(),
                 CreatedAt = model.CreatedAt,
                 ProfileImagePath = new ImagePath(model.ProfileImagePath),
