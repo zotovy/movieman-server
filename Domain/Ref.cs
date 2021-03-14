@@ -1,5 +1,5 @@
 namespace Domain {
-    public class Ref<T> {
+    public sealed class Ref<T> {
         public long Id { get; set; } 
         public T Model { get; set; }
 

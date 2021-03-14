@@ -4,11 +4,11 @@ using Domain.ValueObjects;
 using Domain.ValueObjects.Review;
 
 namespace Domain {
-    public class Review {
+    public sealed class Review {
         public long Id { get; set; }
         public Ref<Movie> Movie { get; set; } 
         public Ref<User> Author { get; set; } 
-        public IEnumerable<Ref<dynamic>> Comments { get; set; } // todo
+        public IEnumerable<Ref<Comment>> Comments { get; set; }
         public ReviewContent Content { get; set; }
         public Rating Rating { get; set; }
         public DateTime CreatedAt { get; set; }
