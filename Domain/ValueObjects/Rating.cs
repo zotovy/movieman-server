@@ -1,6 +1,6 @@
 using System;
 
-namespace Domain.Movie.ValueObjects {
+namespace Domain.ValueObjects {
     public sealed record Rating {
         public double Value { get; }
 

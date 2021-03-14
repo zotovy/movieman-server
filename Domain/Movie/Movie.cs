@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using Domain.Movie.ValueObjects;
+using Domain.ValueObjects;
 
 namespace Domain.Movie {
     public sealed class Movie {
         public long Id { get; set; }
         public long KpId { get; set; }
-        public dynamic Reviews { get; set; } // todo
+        public IEnumerable<Ref<Review.Review>> Reviews { get; set; }
         public ImagePath Poster { get; set; }
         public IEnumerable<MovieGenre> Genres { get; set; }
         public Rating Rating { get; set; }
