@@ -8,15 +8,7 @@ namespace Database.User {
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id).ValueGeneratedNever();
-            
-            // Convert Age: ValueObject --> EF int type
-            // builder.OwnsOne(p => p.Age, a => {
-            //     a.Property(u => u.Value)
-            //         .HasColumnName(nameof(Age))
-            //         .HasColumnType("int")
-            //         .IsRequired();
-            // });
-            
+
             // Convert Name: ValueObject --> EF string type
             // builder.OwnsOne(p => p.Name, a => {
             //     a.Property(u => u.Value)
@@ -25,8 +17,8 @@ namespace Database.User {
             //         .HasMaxLength(64)
             //         .IsRequired();
             // });
-            
-            // Convert Email: ValueObject --> EF int type
+            //
+            // // Convert Email: ValueObject --> EF int type
             // builder.OwnsOne(p => p.Email, a => {
             //     a.Property(u => u.Value)
             //         .HasColumnName(nameof(Email))
@@ -34,8 +26,8 @@ namespace Database.User {
             //         .HasMaxLength(100)
             //         .IsRequired();
             // });
-            
-            // Convert Password: ValueObject --> EF int type
+            //
+            // // Convert Password: ValueObject --> EF int type
             // builder.OwnsOne(p => p.Password, a => {
             //     a.Property(u => u.Value)
             //         .HasColumnName(nameof(Password))

@@ -1,3 +1,4 @@
+using Database;
 using Database.User;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +18,7 @@ namespace API {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddDbContext<UserContext>(options =>
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=7852")
             );
             services.AddScoped<IUserRepository, UserRepository>();

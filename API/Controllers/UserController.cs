@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using API.DTO;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.User;
@@ -17,8 +16,8 @@ namespace API.Controllers {
             _logger = logger;
         }
         
-        public IEnumerable<UserDTO> Index() {
-            return _service.GetUsers().Select(UserDTO.FromDomain);
+        public IEnumerable<User> Index() {
+            return _service.GetUsers();
         }
     }
 }

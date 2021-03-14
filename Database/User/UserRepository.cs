@@ -4,9 +4,9 @@ using System.Linq;
 namespace Database.User {
     public class UserRepository: IUserRepository {
 
-        private readonly UserContext _context;
+        private readonly DatabaseContext _context;
 
-        public UserRepository(UserContext context) {
+        public UserRepository(DatabaseContext context) {
             _context = context;
         }
 

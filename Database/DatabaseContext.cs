@@ -1,8 +1,9 @@
+using Database.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.User {
-    public sealed class UserContext: DbContext  {
-        public UserContext(DbContextOptions options) : base(options) {
+namespace Database {
+    public sealed class DatabaseContext: DbContext  {
+        public DatabaseContext(DbContextOptions options) : base(options) {
             Database.EnsureCreated();
         }
 
