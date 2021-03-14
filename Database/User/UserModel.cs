@@ -25,7 +25,7 @@ namespace Database.User {
                 Name = new Name(model.Name),
                 Comments = model.Comments.Select(c => new Ref<Comment>(c)).ToList(),
                 Reviews = model.Reviews.Select(c => new Ref<Domain.Review>(c)).ToList(),
-                Movies = model.Movies.Select(c => new Ref<Movie>(c)).ToList(),
+                Movies = model.Movies.Select(c => new Ref<Domain.Movie>(c)).ToList(),
                 CreatedAt = model.CreatedAt,
                 ProfileImagePath = new ImagePath(model.ProfileImagePath),
             };

@@ -29,7 +29,7 @@ namespace Database.Review {
                 Comments = Comments.Select(x => new Ref<Comment>(x)),
                 Content = new ReviewContent(Content),
                 Id = Id,
-                Movie = new Ref<Movie>(Movie),
+                Movie = new Ref<Domain.Movie>(Movie),
                 Rating = new Rating(Rating),
                 CreatedAt = CreatedAt,
             };
