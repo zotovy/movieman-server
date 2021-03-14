@@ -6,6 +6,5 @@ namespace Domain {
         public Name Name { get; set; }
         public Email Email { get; set; }
         public Password Password { get; set; }
-        public Age Age { get; set; }
     }
 }

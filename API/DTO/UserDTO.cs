@@ -12,7 +12,6 @@ namespace API.DTO {
                 Email = user.Email.Value,
                 Password = user.Password.Value,
             };
-        } 
-        
+        }
     }
 }
