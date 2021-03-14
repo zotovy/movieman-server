@@ -2,10 +2,12 @@ using Database.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database {
-    public sealed class DatabaseContext: DbContext  {
+    public sealed class DatabaseContext: DbContext {
         public DatabaseContext(DbContextOptions options) : base(options) {
             Database.EnsureCreated();
         }
+        
+        public DatabaseContext() {}
 
         public DbSet<UserModel> Users { get; set; }
 

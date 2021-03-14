@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.ValueObjects.Movie;
 using Domain.ValueObjects.User;
 
 namespace Domain {
@@ -12,5 +13,6 @@ namespace Domain {
         public Email Email { get; set; }
         public Password Password { get; set; }
         public DateTime CreatedAt { get; set; }
+        public ImagePath ProfileImagePath { get; set; }
     }
 }
