@@ -23,7 +23,7 @@ namespace Database.User {
                 Email = new Email(model.Email),
                 Password = new Password(model.Password),
                 Name = new Name(model.Name),
-                Comments = model.Comments.Select(c => new Ref<Comment>(c)).ToList(),
+                Comments = model.Comments.Select(c => new Ref<Domain.Comment>(c)).ToList(),
                 Reviews = model.Reviews.Select(c => new Ref<Domain.Review>(c)).ToList(),
                 Movies = model.Movies.Select(c => new Ref<Domain.Movie>(c)).ToList(),
                 CreatedAt = model.CreatedAt,
