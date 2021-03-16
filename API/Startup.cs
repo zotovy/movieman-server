@@ -4,6 +4,7 @@ using Database.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +43,13 @@ namespace API {
                     ValidateAudience = false
                 };
             });
+            
+            services.AddApiVersioning(x =>  
+            {  
+                x.DefaultApiVersion = new ApiVersion(1, 0);  
+                x.AssumeDefaultVersionWhenUnspecified = true;  
+                x.ReportApiVersions = true;  
+            }); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,9 +12,10 @@ using Microsoft.Extensions.Logging;
 using Services.User;
 
 namespace API.Controllers {
+    [Route("api/{v:apiVersion}/users")]
     [ApiController]
-    [Route("/users")]
-    public class UserController : Controller {
+    [ApiVersion("1.0")]
+    public class UserController : ControllerBase {
         private readonly IUserService _service;
         private readonly ILogger _logger;
 
@@ -29,8 +30,8 @@ namespace API.Controllers {
             return _service.GetUsers();
         }
         
-        
-        [AllowAnonymous, HttpPost("/authenticate"), ValidationErrorFilterAttribute]
+        [HttpPost("authenticate")]
+        [AllowAnonymous, ValidationErrorFilterAttribute]
         public IActionResult LoginUser([FromBody] LoginRequestDTO body) {
             var data = _service.LoginUser(
                 new Email(body.email),
