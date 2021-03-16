@@ -23,6 +23,7 @@ namespace Database {
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
+            builder.UseSerialColumns();
             builder.ApplyConfiguration(new UserConfiguration());
         }
     }

@@ -5,14 +5,13 @@ using API.Filters;
 using Domain;
 using Domain.ValueObjects.User;
 using Metadata.Services.UserMetadata;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.User;
 
 namespace API.Controllers {
-    [Route("api/{v:apiVersion}/users")]
+    [Route("api/{v:apiVersion}/user")]
     [ApiController]
     [ApiVersion("1.0")]
     public class UserController : ControllerBase {
@@ -31,7 +30,7 @@ namespace API.Controllers {
         }
         
         [HttpPost("authenticate")]
-        [AllowAnonymous, ValidationErrorFilterAttribute]
+        [AllowAnonymous, ValidationErrorFilter]
         public IActionResult LoginUser([FromBody] LoginRequestDTO body) {
             var data = _service.LoginUser(
                 new Email(body.email),
@@ -45,6 +44,32 @@ namespace API.Controllers {
             return Ok(new UserAuthTokensDTO(
                 data.UserId, data.AuthTokens.Access, data.AuthTokens.Refresh
             ) );
+        }
+
+        [HttpPost, AllowAnonymous, ValidationErrorFilter]
+        public IActionResult SignupUser([FromBody] SignupRequestDTO body) {
+            if (!body.Validate()) return BadRequest(SignupResponseDTO.BadRequest());
+            
+            // Convert DTO --> raw signup data
+            var raw = new SignupRaw {
+                Email = body.email,
+                Name = body.name,
+                Password = body.password,
+            };
+            
+            // SignupUser
+            var data = _service.SignupUser(raw);
+
+            if (!data.Success) {
+                if (data.Error == SignupResponseError.EmailUniqueness) {
+                    return BadRequest(SignupResponseDTO.EmailError());
+                }
+
+                return BadRequest(SignupResponseDTO.BadRequest());
+            }
+            
+            
+            return Ok(new SignupResponseDTO(true, data.UserId));
         }
     }
 }

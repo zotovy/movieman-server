@@ -31,5 +31,19 @@ namespace Database.User {
         public bool ExistsWithSameEmailAndPassword(Domain.User user) {
             return FoundWithSameEmailAndPassword(user.Email, user.Password) != null;
         }
+
+        public void SaveChanges() => _context.SaveChanges();
+
+        public UserModel Add(Domain.User user) {
+            var model = new UserModel(user);
+            _context.Add(model);
+            return model;
+        }
+
+        public bool CheckEmailUniqueness(Email email) {
+            var founded = _context.Users
+                .FirstOrDefault(u => u.Email == email.Value);
+            return founded == null;
+        }
     }
 }

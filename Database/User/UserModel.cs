@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Domain;
 using Domain.ValueObjects.Movie;
@@ -7,14 +9,20 @@ using Domain.ValueObjects.User;
 
 namespace Database.User {
     public sealed record UserModel {
-        public long Id { get; init; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        [Column("Name", TypeName = "varchar(1000)")]
         public string Name { get; init; }
+        [Column("Email", TypeName = "varchar(1000)")]
         public string Email { get; init; }
+        [Column("Password", TypeName = "varchar(1000)")]
         public string Password { get; init; }
         public DateTime CreatedAt { get; init; }
         public List<long> Reviews { get; init; }
         public List<long> Movies { get; init; }
         public List<long> Comments { get; init; }
+        [Column("ProfileImagePath", TypeName = "varchar(1000)")]
         public string ProfileImagePath { get; init; }
 
         public UserModel() {}

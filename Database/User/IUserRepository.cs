@@ -7,5 +7,8 @@ namespace Database.User {
         public bool ExistsWithSameEmailAndPassword(Email email, Password password);
         public bool ExistsWithSameEmailAndPassword(Domain.User user);
         public UserModel FoundWithSameEmailAndPassword(Email email, Password password);
+        public void SaveChanges();
+        public UserModel Add(Domain.User user);
+        public bool CheckEmailUniqueness(Email email);
     }
 }

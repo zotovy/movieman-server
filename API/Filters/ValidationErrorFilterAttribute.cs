@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace API.Filters {
-    public class ValidationErrorFilterAttribute: Attribute, IExceptionFilter {
+    public class ValidationErrorFilter: Attribute, IExceptionFilter {
         public void OnException(ExceptionContext context) {
             var exceptionType = context.Exception.GetType();
 

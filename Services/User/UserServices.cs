@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Database.User;
+using Domain;
+using Domain.ValueObjects.Movie;
 using Domain.ValueObjects.User;
 using Metadata.Objects;
 using Metadata.Services.UserMetadata;
@@ -72,6 +74,31 @@ namespace Services.User {
                 AuthTokens = new AuthTokens(access, refresh),
                 UserId = user.Id,
             };
+        }
+
+        public SignupResponse SignupUser(SignupRaw raw) {
+            // Convert from Raw --> Domain Entity
+            var user = new Domain.User {
+                Comments = new List<Ref<Comment>>(),
+                Email = new Email(raw.Email),
+                Movies = new List<Ref<Movie>>(),
+                Name = new Name(raw.Name),
+                Password = new Password(raw.Password),
+                Reviews = new List<Ref<Review>>(),
+                CreatedAt = DateTime.Now,
+                ProfileImagePath = new ImagePath()
+            };
+            
+            // Check uniqueness of email
+            if (!_userRepository.CheckEmailUniqueness(user.Email)) {
+                return new SignupResponse(false, SignupResponseError.EmailUniqueness);
+            }
+            
+            // Add user to context and save to DB
+            var model = _userRepository.Add(user);
+            _userRepository.SaveChanges();
+
+            return new SignupResponse(true, model.Id);
         }
     }
 }

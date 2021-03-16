@@ -10,6 +10,8 @@ namespace Domain.ValueObjects.Movie {
             RegexOptions.Singleline | RegexOptions.Compiled
         );
 
+        public ImagePath() { }
+
         public ImagePath(string value) {
             if (!Validator.IsMatch(value)) {
                 throw new ArgumentException($"{value} is invalid ImagePath value.");

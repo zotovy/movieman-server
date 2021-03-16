@@ -7,7 +7,7 @@ namespace Database.User {
             builder.ToTable("Users");
 
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Id).ValueGeneratedNever();
+            builder.Property(p => p.Id).ValueGeneratedOnAdd().UseIdentityAlwaysColumn();
 
             // Convert Name: ValueObject --> EF string type
             // builder.OwnsOne(p => p.Name, a => {
