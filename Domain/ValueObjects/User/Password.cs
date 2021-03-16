@@ -12,7 +12,7 @@ namespace Domain.ValueObjects.User {
         );
 
         public Password(string value) {
-            if (!Validator.IsMatch(value)) {
+            if (!Validator.IsMatch(value ?? "")) {
                 throw new ArgumentException($"{value} is invalid Password value.");
             }
 

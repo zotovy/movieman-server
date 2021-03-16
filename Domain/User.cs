@@ -14,5 +14,13 @@ namespace Domain {
         public Password Password { get; set; }
         public DateTime CreatedAt { get; set; }
         public ImagePath ProfileImagePath { get; set; }
+
+        public bool CompareUsingEmailAndPassword(User user) {
+            return Email == user.Email && Password == user.Password;
+        }
+
+        public bool CompareUsingId(User user) {
+            return Id == user.Id;
+        }
     }
 }

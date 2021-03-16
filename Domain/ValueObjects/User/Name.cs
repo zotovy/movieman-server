@@ -6,12 +6,13 @@ namespace Domain.ValueObjects.User {
         public string Value { get; }
 
         public static readonly Regex Validator = new Regex(
-            @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
+            "^[a-zA-Zа-яёА-ЯЁ]+(([',. -][a-zA-Zа-яёА-ЯЁ])?[a-zA-Zа-яёА-ЯЁ]*)*$",
             RegexOptions.Singleline | RegexOptions.Compiled
         );
 
         public Name(string value) {
             if (!Validator.IsMatch(value)) {
+                Console.WriteLine(Validator.Match(value));
                 throw new ArgumentException($"{value} is invalid name value.");
             }
 

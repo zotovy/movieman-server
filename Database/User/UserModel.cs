@@ -6,7 +6,7 @@ using Domain.ValueObjects.Movie;
 using Domain.ValueObjects.User;
 
 namespace Database.User {
-    public sealed class UserModel {
+    public sealed record UserModel {
         public long Id { get; init; }
         public string Name { get; init; }
         public string Email { get; init; }
@@ -17,7 +17,21 @@ namespace Database.User {
         public List<long> Comments { get; init; }
         public string ProfileImagePath { get; init; }
 
-        public static  Domain.User ToDomain(UserModel model) {
+        public UserModel() {}
+        
+        public UserModel(Domain.User user) {
+            Id = user.Id;
+            Name = user.Name.Value;
+            Email = user.Email.Value;
+            Password = user.Password.Value;
+            CreatedAt = user.CreatedAt;
+            Reviews = user.Reviews.Select(x => x.Id).ToList();
+            Movies = user.Movies.Select(x => x.Id).ToList();
+            Comments = user.Comments.Select(x => x.Id).ToList();
+            ProfileImagePath = user.ProfileImagePath.Value;
+        }
+        
+        public static Domain.User ToDomain(UserModel model) {
             return new Domain.User {
                 Id = model.Id,
                 Email = new Email(model.Email),
@@ -30,5 +44,21 @@ namespace Database.User {
                 ProfileImagePath = new ImagePath(model.ProfileImagePath),
             };
         }
-    }
+
+        public Domain.User ToDomain() {
+            return UserModel.ToDomain(this);
+        }
+
+        public bool CompareUsingEmailAndPassword(UserModel model) {
+            return Email == model.Email && Password == model.Password;
+        }
+        
+        public bool CompareUsingEmailAndPassword(Domain.User model) {
+            return Email == model.Email.Value && Password == model.Password.Value;
+        }
+
+        public bool CompareUsingEmailAndPassword(Email email, Password password) {
+            return Email == email.Value && Password == password.Value;
+        }
+     }
 }

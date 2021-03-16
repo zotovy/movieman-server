@@ -11,7 +11,7 @@ namespace Domain.ValueObjects.User {
         );
 
         public Email(string value) {
-            if (!Validator.IsMatch(value)) {
+            if (!Validator.IsMatch(value ?? "")) {
                 throw new ArgumentException($"{value} is invalid email address.");
             }
 
