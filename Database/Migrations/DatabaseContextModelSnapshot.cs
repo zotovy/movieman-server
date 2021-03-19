@@ -61,8 +61,8 @@ namespace Database.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<List<string>>("Genres")
-                        .HasColumnType("text[]");
+                    b.Property<string>("Genres")
+                        .HasColumnType("text");
 
                     b.Property<long>("KpId")
                         .HasColumnType("bigint");

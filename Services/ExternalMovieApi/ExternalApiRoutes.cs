@@ -8,11 +8,12 @@ namespace Services.ExternalMovieApi {
             _apiKey = apiKey;
         }
 
-        private string _baseRoute => "http://api.tmdb.org/3";
+        private string _baseApiRoute => "http://api.tmdb.org/3";
+        private string _baseFileRoute => "http://image.tmdb.org";
         private string _apiKeyParam => $"?api_key={_apiKey}";
-        private string _buildRoute(string route, string q = "") => $"{_baseRoute}{route}{_apiKeyParam}{q}";
+        private string _buildRoute(string route, string q = "") => $"{_baseApiRoute}{route}{_apiKeyParam}{q}";
 
         public string GetPopularMovies => _buildRoute("/discover/movie");
-        public string Image(string name) => $"{_baseRoute}/t/p/w500{name}";
+        public string Image(string name) => $"{_baseFileRoute}/t/p/w500{name}";
     }
 }

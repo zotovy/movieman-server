@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Database.Comment;
 using Database.Movie;
 using Database.Review;
 using Database.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Database {
     public sealed class DatabaseContext: DbContext {
@@ -24,6 +28,22 @@ namespace Database {
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
+            
+            var valueComparer = new ValueComparer<List<string>>(
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList());
+
+            
+            builder.Entity<MovieModel>()
+                .Property(m => m.Genres)
+                .HasConversion(
+                    v => string.Join(',', v),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+                )
+                .Metadata
+                .SetValueComparer(valueComparer);
+            
             builder.ApplyConfiguration(new UserConfiguration());
         }
     }

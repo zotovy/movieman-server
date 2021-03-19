@@ -34,7 +34,7 @@ namespace Services.ExternalMovieApi {
             List<Domain.Movie> movies = raw.Select(
                 rawMovie => {
                     var domain = new Domain.Movie {
-                        Genres = (rawMovie["genre_ids"] as List<int> ?? new List<int>())
+                        Genres = (rawMovie["genre_ids"].ToObject<List<int>>() as List<int>)
                             .Select(id => ExternalApiMovieHelper.IdToGenre[id])
                             .ToList(),
                         Poster = new ImagePath(_externalApiRoutes.Image(rawMovie["backdrop_path"])),
@@ -44,7 +44,6 @@ namespace Services.ExternalMovieApi {
                         Year = new Year((rawMovie["release_date"] as string ?? "2000").Split("-")[0]),
                         KpId = rawMovie["id"]
                     };
-                    Console.WriteLine(domain);
                     return domain;
                 }).ToList();
 

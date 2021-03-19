@@ -10,6 +10,7 @@ namespace Services.ExternalMovieApi {
             { 35, new MovieGenre("Comedy") },
             { 80, new MovieGenre("Crime") },
             { 99, new MovieGenre("Documentary") },
+            { 18, new MovieGenre("Drama") },
             { 10751, new MovieGenre("Family") },
             { 14, new MovieGenre("Fantasy") },
             { 36, new MovieGenre("History") },

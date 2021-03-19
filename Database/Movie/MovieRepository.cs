@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Movie {
     public class MovieRepository: IMovieRepository {
@@ -14,11 +15,11 @@ namespace Database.Movie {
         public void UpdatePopularMovies(IEnumerable<Domain.Movie> movies) {
             
             // Remove old popular movies
-            _context.LinkToPopularMovieModels.RemoveRange(_context.LinkToPopularMovieModels);
+            _context.LinkToPopularMovieModels.RemoveRange(_context.LinkToPopularMovieModels.ToList());
 
             // Go throw movies and checked is this movie exists in db
             foreach (var movie in movies) {
-                var founded = _context.Movies.FirstOrDefault(m => m.Id == movie.Id);
+                var founded = _context.Movies.FirstOrDefault(m => m.KpId == movie.KpId);
                 
                 // Create a MovieModel to work with db later
                 var model = new MovieModel(movie);

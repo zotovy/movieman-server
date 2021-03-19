@@ -7,6 +7,7 @@ namespace Database.Movie {
     public sealed record MovieModel {
         [Key]
         public long Id { get; set; }
+        [ForeignKey("Review")]
         public long KpId { get; set; }
         public List<long> Reviews { get; set; }
         [Column("Poster", TypeName = "varchar(1000)")]

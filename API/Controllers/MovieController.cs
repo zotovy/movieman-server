@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.ExternalMovieApi;
@@ -16,7 +17,7 @@ namespace API.Controllers {
 
         [HttpGet]
         public async Task<dynamic> GetPopularMovies() {
-            // await _movieServices.GetPopularMovies();
+            await _movieServices.UpdatePopularMovies();
             return true;
         }
         

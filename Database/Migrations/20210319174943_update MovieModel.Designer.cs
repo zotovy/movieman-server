@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210316172432_Add auto-increment to User Model2")]
-    partial class AddautoincrementtoUserModel2
+    [Migration("20210319174943_update MovieModel")]
+    partial class updateMovieModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,18 @@ namespace Database.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Database.Movie.LinkToPopularMovieModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LinksToPopularMovies");
+                });
+
             modelBuilder.Entity("Database.Movie.MovieModel", b =>
                 {
                     b.Property<long>("Id")
@@ -51,8 +63,29 @@ namespace Database.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("Genres")
+                        .HasColumnType("text");
+
+                    b.Property<long>("KpId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Poster")
+                        .HasColumnType("varchar(1000)")
+                        .HasColumnName("Poster");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("double precision");
+
                     b.Property<List<long>>("Reviews")
                         .HasColumnType("bigint[]");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("varchar(1000)")
+                        .HasColumnName("Title");
+
+                    b.Property<string>("Year")
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("Year");
 
                     b.HasKey("Id");
 
@@ -96,7 +129,7 @@ namespace Database.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn);
 
                     b.Property<List<long>>("Comments")
                         .HasColumnType("bigint[]");
