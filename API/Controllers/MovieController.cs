@@ -16,7 +16,7 @@ namespace API.Controllers {
 
         [HttpGet]
         public async Task<dynamic> GetPopularMovies() {
-            await _movieServices.GetPopularMovies();
+            // await _movieServices.GetPopularMovies();
             return true;
         }
         
