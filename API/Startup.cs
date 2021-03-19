@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Services.ExternalMovieApi;
 using Services.User;
 
 namespace API {
@@ -27,6 +28,7 @@ namespace API {
             );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserServices>();
+            services.AddScoped<IExternalMovieApiService, ExternalMovieApiService>();
             services.AddControllers();
             
             services.AddAuthentication(options => {

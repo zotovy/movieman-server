@@ -4,4 +4,5 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::6EE31EB9-A195-4A9C-8D76-C20A201BBB52::net5.0::UnitTests.API.UserController&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Kinopoisk/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

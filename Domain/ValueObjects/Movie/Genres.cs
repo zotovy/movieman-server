@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -6,37 +7,25 @@ namespace Domain.ValueObjects.Movie {
 
     public static class AvailableGenres {
         public static readonly string[] availableGenres = {
-            "комедия",
-            "мультфильм",
-            "триллер",
-            "ужасы",
-            "фантастика",
-            "аниме",
-            "биография",
-            "боевик",
-            "вестерн",
-            "военный",
-            "детективы",
-            "детский",
-            "документальный",
-            "драма",
-            "игра",
-            "исторический",
-            "концерт",
-            "короткометражка",
-            "криминал",
-            "мелодрама",
-            "музыкальные",
-            "мюзиклы",
-            "новости",
-            "приключения",
-            "реальное ТВ",
-            "семейный",
-            "спортивное",
-            "ток-шоу",
-            "фильм-нуар",
-            "фэнтези",
-            "церемония",
+            "Action",
+            "Adventure",
+            "Animation",
+            "Comedy",
+            "Crime",
+            "Documentary",
+            "Drama",
+            "Family",
+            "Fantasy",
+            "History",
+            "Horror",
+            "Music",
+            "Mystery",
+            "Romance",
+            "Science Fiction",
+            "TV Movie",
+            "Thriller",
+            "War",
+            "Western"
         };
     }
     
