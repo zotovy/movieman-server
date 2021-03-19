@@ -16,6 +16,7 @@ namespace Database {
         public DbSet<MovieModel> Movies { get; set; }
         public DbSet<ReviewModel> Reviews { get; set; }
         public DbSet<CommentModel> Comments { get; set; }
+        public DbSet<LinkToPopularMovieModel> LinkToPopularMovieModels { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=7852");
@@ -23,7 +24,6 @@ namespace Database {
 
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
-            builder.UseSerialColumns();
             builder.ApplyConfiguration(new UserConfiguration());
         }
     }

@@ -1,5 +1,6 @@
 using System.Text;
 using Database;
+using Database.Movie;
 using Database.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Services.ExternalMovieApi;
+using Services.Movie;
 using Services.User;
 
 namespace API {
@@ -28,7 +30,9 @@ namespace API {
             );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserServices>();
-            services.AddScoped<IExternalMovieApiService, ExternalMovieApiService>();
+            services.AddScoped<IExternalMovieApiServices, ExternalMovieApiServices>();
+            services.AddScoped<IMovieServices, MovieServices>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddControllers();
             
             services.AddAuthentication(options => {

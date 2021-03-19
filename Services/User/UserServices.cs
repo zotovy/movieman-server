@@ -81,7 +81,7 @@ namespace Services.User {
             var user = new Domain.User {
                 Comments = new List<Ref<Comment>>(),
                 Email = new Email(raw.Email),
-                Movies = new List<Ref<Movie>>(),
+                Movies = new List<Ref<Domain.Movie>>(),
                 Name = new Name(raw.Name),
                 Password = new Password(raw.Password),
                 Reviews = new List<Ref<Review>>(),

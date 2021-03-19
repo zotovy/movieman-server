@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Domain;
 
 namespace Services.ExternalMovieApi {
-    public interface IExternalMovieApiService {
-        public Task<ImmutableList<Movie>> GetPopularMovies();
+    public interface IExternalMovieApiServices {
+        public Task<ImmutableList<Domain.Movie>> GetPopularMovies();
     }
 }

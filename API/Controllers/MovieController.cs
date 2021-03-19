@@ -1,21 +1,22 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.ExternalMovieApi;
+using Services.Movie;
 
 namespace API.Controllers {
     [ApiController]
     [Route("api/{v:apiVersion}/movie")]
     public class MovieController: ControllerBase {
 
-        private readonly IExternalMovieApiService _externalMovieApiService;
+        private readonly IMovieServices _movieServices;
 
-        public MovieController(IExternalMovieApiService kinopoiskService) {
-            _externalMovieApiService = kinopoiskService;
+        public MovieController(IMovieServices movieServices) {
+            _movieServices = movieServices;
         }
-        
+
         [HttpGet]
         public async Task<dynamic> GetPopularMovies() {
-            return await _externalMovieApiService.GetPopularMovies();
+            await _movieServices.GetPopularMovies();
             return true;
         }
         
