@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Domain;
+using Domain.ValueObjects;
+using Domain.ValueObjects.Movie;
 
 namespace Database.Movie {
     public sealed record MovieModel {
@@ -30,6 +33,19 @@ namespace Database.Movie {
             Rating = movie.Rating.Value;
             Title = movie.Title.Value;
             Year = movie.Year.Value;
+        }
+
+        public Domain.Movie ToDomain() {
+            return new () {
+                Genres = Genres.Select(g => new MovieGenre(g)).ToList(),
+                Id = Id,
+                Poster = new ImagePath(Poster),
+                Rating = new Rating(Rating),
+                Reviews = Reviews.Select(r => new Ref<Domain.Review>(r)).ToList(),
+                Title = new Title(Title),
+                Year = new Year(Year),
+                KpId = KpId
+            };
         }
     }
 }
