@@ -26,5 +26,13 @@ namespace API.Controllers {
         public async Task FetchPopularMovies() {
             await _movieServices.UpdatePopularMovies();
         }
+
+        [HttpGet("search/{query}")]
+        public async Task<IActionResult> SearchMovie(string query) {
+            var movies = await _movieServices.SearchMovie(query);
+            return Ok(new MovieListDto(
+                movies.Select(x => new MovieDto(x)).ToList()
+            ));
+        }
     }
 }
