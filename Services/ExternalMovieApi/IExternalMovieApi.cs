@@ -5,5 +5,6 @@ using Domain;
 namespace Services.ExternalMovieApi {
     public interface IExternalMovieApiServices {
         public Task<ImmutableList<Domain.Movie>> GetPopularMovies();
+        public Task<ImmutableList<Domain.Movie>> SearchMovie(string name);
     }
 }

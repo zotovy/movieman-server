@@ -24,29 +24,37 @@ namespace Services.ExternalMovieApi {
         private async Task<JsonObjectType> _fetchAsJson(string route) {
             var raw = await _httpClient.GetAsync(route);
             var body = await raw.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<JsonObjectType>(body);
+            return JsonConvert.DeserializeObject<JsonObjectType>(
+                body,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }
+            );
+        }
+
+        private Domain.Movie JsonToMovie(JsonObjectType rawMovie) {
+            return new() {
+                Genres = (rawMovie["genre_ids"].ToObject<List<int>>() as List<int>)
+                    .Select(id => ExternalApiMovieHelper.IdToGenre[id])
+                    .ToList(),
+                Poster = new ImagePath(_externalApiRoutes.Image(rawMovie["backdrop_path"] ?? rawMovie["poster_path"])),
+                Rating = new Rating(0),
+                Reviews = new List<Ref<Review>>(),
+                Title = new Title(rawMovie["title"]),
+                Year = new Year((rawMovie["release_date"] as string ?? "2000").Split("-")[0]),
+                KpId = rawMovie["id"]
+            };
         }
 
         public async Task<ImmutableList<Domain.Movie>> GetPopularMovies() {
             var data = await _fetchAsJson(_externalApiRoutes.GetPopularMovies);
             List<JsonObjectType> raw = data["results"].ToObject<List<JsonObjectType>>();
+            var movies = raw.Select(JsonToMovie).ToList();
+            return movies.ToImmutableList();
+        }
 
-            List<Domain.Movie> movies = raw.Select(
-                rawMovie => {
-                    var domain = new Domain.Movie {
-                        Genres = (rawMovie["genre_ids"].ToObject<List<int>>() as List<int>)
-                            .Select(id => ExternalApiMovieHelper.IdToGenre[id])
-                            .ToList(),
-                        Poster = new ImagePath(_externalApiRoutes.Image(rawMovie["backdrop_path"])),
-                        Rating = new Rating(0),
-                        Reviews = new List<Ref<Review>>(),
-                        Title = new Title(rawMovie["title"]),
-                        Year = new Year((rawMovie["release_date"] as string ?? "2000").Split("-")[0]),
-                        KpId = rawMovie["id"]
-                    };
-                    return domain;
-                }).ToList();
-
+        public async Task<ImmutableList<Domain.Movie>> SearchMovie(string name) {
+            var data = await _fetchAsJson(_externalApiRoutes.SearchMovie(name));
+            List<JsonObjectType> raw = data["results"].ToObject<List<JsonObjectType>>();
+            var movies = raw.Where(j => j["backdrop_path"] != null).Select(JsonToMovie).ToList();
             return movies.ToImmutableList();
         }
     }
