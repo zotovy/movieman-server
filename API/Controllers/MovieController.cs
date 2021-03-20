@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTO;
 using API.DTO.Movie;
 using Microsoft.AspNetCore.Mvc;
 using Services.Movie;
@@ -33,6 +34,13 @@ namespace API.Controllers {
             return Ok(new MovieListDto(
                 movies.Select(x => new MovieDto(x)).ToList()
             ));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetMovie(long id) {
+            var movie = _movieServices.GetMovie(id);
+            if (movie == null) return NotFound(new NotFoundDto());
+            return Ok(new MovieDto(movie));
         }
     }
 }

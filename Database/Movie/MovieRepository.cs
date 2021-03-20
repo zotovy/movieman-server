@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace Database.Movie {
 
         public MovieRepository(DatabaseContext context) {
             _context = context;
+        }
+
+        public bool IsMovieExists(long id) {
+            var movie = _context.Movies.FirstOrDefault(x => x.Id == id);
+            return movie != null;
         }
 
         public void SaveChanges() => _context.SaveChanges();
@@ -49,6 +55,23 @@ namespace Database.Movie {
             }
 
             return movies.ToImmutableList();
+        }
+
+        public void AddMovie(Domain.Movie movie) {
+            var model = new MovieModel(movie);
+            _context.Movies.Add(model);
+        }
+
+        #nullable enable
+        public Domain.Movie? GetMovie(long id) {
+            var model = _context.Movies.FirstOrDefault(x => x.Id == id);
+            return model == null ? null : model.ToDomain();
+        }
+
+        #nullable enable
+        public Domain.Movie? GetMovieByExternalId(long kpId) {
+            var model = _context.Movies.FirstOrDefault(x => x.KpId == kpId);
+            return model == null ? null : model.ToDomain();
         }
     }
 }

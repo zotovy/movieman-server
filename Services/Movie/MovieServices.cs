@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Database.Movie;
@@ -22,7 +22,35 @@ namespace Services.Movie {
 
         public ImmutableList<Domain.Movie> GetPopularMovies() => _movieRepository.GetPopularMovies();
 
-        public Task<ImmutableList<Domain.Movie>> SearchMovie(string name) =>
-            _externalMovieApiServices.SearchMovie(name);
+        public async Task<ImmutableList<Domain.Movie>> SearchMovie(string name) {
+            // get movies from external api
+            var movies = await _externalMovieApiServices.SearchMovie(name);
+
+            // need this list to save new generated id of not saved in database movies 
+            var newMovies = new List<Domain.Movie>();
+            
+            // go throw fetched movies and save not existing movies
+            foreach (var movie in movies) {
+                var model = _movieRepository.GetMovieByExternalId(movie.KpId);
+                if (model == null) {
+                    _movieRepository.AddMovie(movie);
+                    _movieRepository.SaveChanges();
+                    model = _movieRepository.GetMovieByExternalId(movie.KpId);
+                    newMovies.Add(model);
+                }
+                else {
+                    newMovies.Add(model);
+                }
+            }
+
+            return newMovies.ToImmutableList();
+        }
+
+        public void CreateMovie(Domain.Movie movie) {
+            _movieRepository.AddMovie(movie);
+            _movieRepository.SaveChanges();
+        }
+
+        public Domain.Movie GetMovie(long id) => _movieRepository.GetMovie(id);
     }
 }
