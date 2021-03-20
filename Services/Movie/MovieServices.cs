@@ -5,8 +5,7 @@ using Database.Movie;
 using Services.ExternalMovieApi;
 
 namespace Services.Movie {
-    public sealed class MovieServices: IMovieServices {
-
+    public sealed class MovieServices : IMovieServices {
         private readonly IMovieRepository _movieRepository;
         private readonly IExternalMovieApiServices _externalMovieApiServices;
 
@@ -22,5 +21,8 @@ namespace Services.Movie {
         }
 
         public ImmutableList<Domain.Movie> GetPopularMovies() => _movieRepository.GetPopularMovies();
+
+        public Task<ImmutableList<Domain.Movie>> SearchMovie(string name) =>
+            _externalMovieApiServices.SearchMovie(name);
     }
 }
