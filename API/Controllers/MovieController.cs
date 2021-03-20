@@ -1,7 +1,7 @@
-using System;
+using System.Linq;
 using System.Threading.Tasks;
+using API.DTO.Movie;
 using Microsoft.AspNetCore.Mvc;
-using Services.ExternalMovieApi;
 using Services.Movie;
 
 namespace API.Controllers {
@@ -15,11 +15,16 @@ namespace API.Controllers {
             _movieServices = movieServices;
         }
 
-        [HttpGet]
-        public async Task<dynamic> GetPopularMovies() {
-            await _movieServices.UpdatePopularMovies();
-            return true;
+        [HttpGet("/api/{v:apiVersion}/movies/popular")]
+        public IActionResult GetPopularMovies() {
+            var movies = _movieServices.GetPopularMovies();
+            var dtos = movies.Select(x => new MovieDto(x)).ToList();
+            return Ok(new MovieListDto(dtos));
         }
-        
+
+        [HttpPost]
+        public async Task FetchPopularMovies() {
+            await _movieServices.UpdatePopularMovies();
+        }
     }
 }
