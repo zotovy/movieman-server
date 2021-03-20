@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Database.Movie;
 using Services.ExternalMovieApi;
@@ -19,5 +20,7 @@ namespace Services.Movie {
             _movieRepository.UpdatePopularMovies(movies);
             _movieRepository.SaveChanges();
         }
+
+        public ImmutableList<Domain.Movie> GetPopularMovies() => _movieRepository.GetPopularMovies();
     }
 }
