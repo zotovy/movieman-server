@@ -71,5 +71,21 @@ namespace API.Controllers {
             
             return Ok(new SignupResponseDTO(true, data.UserId));
         }
+
+        [HttpPost("reauthenticate"), AllowAnonymous]
+        public IActionResult Reauthenticate([FromBody] ReauthenticateRequestDto body) {
+            // Validation
+            var validationResult = body.Validate();
+            if (validationResult != null) return BadRequest(validationResult);
+            
+            var data = _service.ReauthenticateUser(new ReauthenticateRequest {
+                uid = body.uid,
+                accessToken = body.tokens.access,
+                refreshToken = body.tokens.refresh,
+            });
+
+            if (data.Success) return Ok(data);
+            return new ObjectResult(data) { StatusCode = 401 };
+        }
     }
 }

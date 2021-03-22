@@ -31,7 +31,7 @@ namespace Services.User {
 
         private string _createToken(TokenType type, long id) {
             var claims = new List<Claim> {
-                new(ClaimsIdentity.DefaultNameClaimType, id.ToString())
+                new("uid", id.ToString())
             };
             var claimsIdentity = new ClaimsIdentity(
                 claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType
@@ -64,11 +64,11 @@ namespace Services.User {
             if (user == null) {
                 return new LoginResponse { Success = false };
             }
-            
+
             // Create tokens for this user
             string access = _createToken(TokenType.Access, user.Id);
             string refresh = _createToken(TokenType.Refresh, user.Id);
-            
+
             return new LoginResponse {
                 Success = true,
                 AuthTokens = new AuthTokens(access, refresh),
@@ -88,17 +88,53 @@ namespace Services.User {
                 CreatedAt = DateTime.Now,
                 ProfileImagePath = new ImagePath()
             };
-            
+
             // Check uniqueness of email
             if (!_userRepository.CheckEmailUniqueness(user.Email)) {
                 return new SignupResponse(false, SignupResponseError.EmailUniqueness);
             }
-            
+
             // Add user to context and save to DB
             var model = _userRepository.Add(user);
             _userRepository.SaveChanges();
 
             return new SignupResponse(true, model.Id);
+        }
+
+        public ReauthenticateResponse ReauthenticateUser(ReauthenticateRequest data) {
+            // Validate giving token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:secret"]));
+            
+            try {
+                var a = tokenHandler.ValidateToken(
+                    data.refreshToken,
+                    new TokenValidationParameters {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                    },
+                    out var validatedToken
+                );
+
+                if (a.Claims.ToList()[0].Value != data.uid.ToString()) {
+                    throw new ArgumentException($"{validatedToken.Id} != {data.uid.ToString()}");
+                }
+            } catch {
+                return new ReauthenticateResponse {
+                    Success = false,
+                };
+            }
+
+            // Create new tokens
+            var access = _createToken(TokenType.Access, data.uid);
+            var refresh = _createToken(TokenType.Refresh, data.uid);
+
+            return new ReauthenticateResponse {
+                Success = true,
+                Tokens = new AuthTokens(access, refresh),
+            };
         }
     }
 }

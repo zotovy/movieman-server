@@ -7,5 +7,6 @@ namespace Services.User {
         public IEnumerable<Domain.User> GetUsers();
         public LoginResponse LoginUser(Email email, Password password);
         public SignupResponse SignupUser(SignupRaw user);
+        public ReauthenticateResponse ReauthenticateUser(ReauthenticateRequest data);
     }
 }
