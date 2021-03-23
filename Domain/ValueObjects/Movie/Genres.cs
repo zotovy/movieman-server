@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 
@@ -37,6 +38,7 @@ namespace Domain.ValueObjects.Movie {
         }
 
         public MovieGenre(string value) {
+            value = new CultureInfo("en-US").TextInfo.ToTitleCase(value);
             if (!Validate(value)) {
                 throw new ArgumentException($"{value} is invalid MovieGenre");
             }
