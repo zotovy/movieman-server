@@ -57,6 +57,14 @@ namespace Services.ExternalMovieApi {
             var movies = raw.Where(j => j["backdrop_path"] != null).Select(JsonToMovie).ToList();
             return movies.ToImmutableList();
         }
+
+        public async Task<ImmutableList<Domain.Movie>> GetMoviesByGenre(MovieGenre genre) {
+            var genreId = ExternalApiMovieHelper.GetGenreId(genre);
+            var data = await _fetchAsJson(_externalApiRoutes.GetByGenre(genreId));
+            List<JsonObjectType> raw = data["results"].ToObject<List<JsonObjectType>>();
+            var movies = raw.Where(j => j["backdrop_path"] != null).Select(JsonToMovie).ToList();
+            return movies.ToImmutableList();
+        }
     }
 
     public class JsonObjectType : Dictionary<string, dynamic> {

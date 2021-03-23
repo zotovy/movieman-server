@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using Domain.ValueObjects.Movie;
 
 namespace Services.ExternalMovieApi {
     public static class ExternalApiMovieHelper {
-        public static Dictionary<int, MovieGenre> IdToGenre = new() {
+        public static readonly Dictionary<int, MovieGenre> IdToGenre = new() {
             { 28, new MovieGenre("Action") },
             { 12, new MovieGenre("Adventure") },
             { 16, new MovieGenre("Animation") },
@@ -24,5 +25,9 @@ namespace Services.ExternalMovieApi {
             { 10752, new MovieGenre("War") },
             { 37, new MovieGenre("Western") },
         };
+        
+        public static int GetGenreId(MovieGenre genre) {
+            return IdToGenre.FirstOrDefault(x => x.Value == genre).Key;
+        }
     }
 }
