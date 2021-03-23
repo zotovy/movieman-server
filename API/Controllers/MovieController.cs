@@ -2,6 +2,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTO;
 using API.DTO.Movie;
+using API.Filters;
+using Domain.ValueObjects.Movie;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Movie;
 
@@ -41,6 +44,15 @@ namespace API.Controllers {
             var movie = _movieServices.GetMovie(id);
             if (movie == null) return NotFound(new NotFoundDto());
             return Ok(new MovieDto(movie));
+        }
+
+        [HttpGet("/api/{v:apiVersion}/movies/get-by-genre/{genre}")]
+        [AllowAnonymous, ValidationErrorFilter]
+        public async Task<IActionResult> GetMovieByGenre(string genre) {
+            var movies = await _movieServices.GetMoviesByGenre(new MovieGenre(genre));
+            return Ok(new MovieListDto(
+                movies.Select(x => new MovieDto(x)).ToList()
+            ));
         }
     }
 }
