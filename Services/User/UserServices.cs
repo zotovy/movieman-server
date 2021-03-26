@@ -165,5 +165,7 @@ namespace Services.User {
         }
 
         public void ChangeUserAvatarPath(long id, string path) => _userRepository.ChangeUserAvatarPath(id, path);
+
+        public void UpdateUser(Domain.User user) => _userRepository.UpdateUser(user);
     }
 }
