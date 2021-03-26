@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="static\profile-image" />
+    </ItemGroup>
+
 </Project>

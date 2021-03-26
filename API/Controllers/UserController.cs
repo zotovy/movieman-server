@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using API.DTO;
 using API.DTO.User;
@@ -97,6 +98,29 @@ namespace API.Controllers {
 
             var user = _service.GetUser(id);
             return Ok(new UserDetailDto(user));
+        }
+
+        [HttpPost("{id}/change-profile-image"), Authorize]
+        public IActionResult ChangeProfileImage(long id, [FromForm] ChangeProfileImageDto body) {
+            // Authorize user
+            long tokenId = int.Parse(User.Claims.First(x => x.Type == "uid").Value);
+            if (id != tokenId) return new ObjectResult(new ForbiddenDto()) { StatusCode = 403 };
+            
+            // Validate image size
+            if (body.image.Length > 1e+6) {
+                return BadRequest(new InvalidProfileImageSizeDto());
+            }
+            
+            // Convert IFormFile --> byte[]
+            var memoryStream = new MemoryStream();
+            body.image.CopyTo(memoryStream);
+            var fileBytes = memoryStream.ToArray();
+            
+            // Save image
+            var path = _service.SaveUserProfileImage(id, fileBytes);
+            _service.ChangeUserAvatarPath(id, path);
+            
+            return Ok(path);
         }
     }
 }

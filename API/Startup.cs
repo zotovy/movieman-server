@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text;
 using Database;
 using Database.Movie;
@@ -9,9 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Services.ExternalMovieApi;
+using Services.Media;
 using Services.Movie;
 using Services.User;
 
@@ -35,8 +38,9 @@ namespace API {
             services.AddScoped<IExternalMovieApiServices, ExternalMovieApiServices>();
             services.AddScoped<IMovieServices, MovieServices>();
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMediaService, MediaService>();
             services.AddControllers();
-            
+
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -51,22 +55,17 @@ namespace API {
                     ValidateAudience = false
                 };
             });
-            
-            services.AddApiVersioning(x =>  
-            {  
-                x.DefaultApiVersion = new ApiVersion(1, 0);  
-                x.AssumeDefaultVersionWhenUnspecified = true;  
-                x.ReportApiVersions = true;  
+
+            services.AddApiVersioning(x => {
+                x.DefaultApiVersion = new ApiVersion(1, 0);
+                x.AssumeDefaultVersionWhenUnspecified = true;
+                x.ReportApiVersions = true;
             });
 
-            services.AddCors(options =>
-                {
-                    options.AddPolicy(name: "ApiCorsPolicy",
-                                      builder =>
-                                      {
-                                          builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
-                                      });
-                });
+            services.AddCors(options => {
+                options.AddPolicy(name: "ApiCorsPolicy",
+                    builder => { builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader(); });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,15 +76,21 @@ namespace API {
             }
 
             app.UseHttpsRedirection();
+            // using Microsoft.Extensions.FileProviders;
+            // using System.IO;
+            app.UseStaticFiles(new StaticFileOptions {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.ContentRootPath, "static/profile-image")),
+                RequestPath = "/static/profile-image"
+            });
 
             app.UseRouting();
             app.UseCors(
-                    options =>   options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
-                        );
+                options => options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
+            );
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
         }
     }
 }

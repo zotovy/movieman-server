@@ -5,7 +5,6 @@ namespace Services.Media {
     public sealed class MediaService: IMediaService {
         public void SaveUserProfilePicture(byte[] image, string filename) {
             var projectPath = Directory.GetCurrentDirectory();
-            Console.WriteLine(projectPath);
             var imagePath = projectPath + "/static/profile-image/" + filename;
             File.WriteAllBytes(imagePath, image);
         }
