@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using API.DTO;
 using API.DTO.User;
 using API.Filters;
 using Domain;
@@ -69,7 +71,7 @@ namespace API.Controllers {
             }
             
             
-            return Ok(new SignupResponseDTO(true, data.UserId));
+            return Ok(new SignupResponseDTO(true, data.UserId, data.Tokens));
         }
 
         [HttpPost("reauthenticate"), AllowAnonymous]
@@ -86,6 +88,15 @@ namespace API.Controllers {
 
             if (data.Success) return Ok(data);
             return new ObjectResult(data) { StatusCode = 401 };
+        }
+
+        [HttpGet("{id}"), Authorize]
+        public IActionResult GetUser(long id) {
+            long tokenId = int.Parse(User.Claims.First(x => x.Type == "uid").Value);
+            if (id != tokenId) return new ObjectResult(new ForbiddenDto()) { StatusCode = 403 };
+
+            var user = _service.GetUser(id);
+            return Ok(new UserDetailDto(user));
         }
     }
 }
