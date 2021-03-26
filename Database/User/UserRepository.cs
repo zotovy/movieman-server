@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.ValueObjects.User;
@@ -52,8 +53,24 @@ namespace Database.User {
         }
 
         public void ChangeUserAvatarPath(long id, string path) {
-            var user = _context.Users.First(u => u.Id == id);
-            user.ProfileImagePath = path;
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            
+            // if no user found --> throw ArgumentException
+            if (user == null) throw new ArgumentException("Invalid id");
+            
+            // Change profile image path & save
+;            user.ProfileImagePath = path;
+            _context.SaveChanges();
+        }
+
+        public void UpdateUser(Domain.User user) {
+            var model = _context.Users.FirstOrDefault(x => x.Id == user.Id);
+            
+            // if no user found --> throw ArgumentException
+            if (model == null) throw new ArgumentException("Invalid id");
+
+            // Compare data and save changes
+            model.UseDataFrom(user);
             _context.SaveChanges();
         }
     }

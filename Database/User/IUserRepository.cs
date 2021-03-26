@@ -13,5 +13,6 @@ namespace Database.User {
         #nullable enable
         public UserModel? GetUserById(long id);
         public void ChangeUserAvatarPath(long id, string path);
+        public void UpdateUser(Domain.User user);
     }
 }

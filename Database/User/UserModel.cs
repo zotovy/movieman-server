@@ -40,7 +40,7 @@ namespace Database.User {
         }
         
         public static Domain.User ToDomain(UserModel model) {
-            return new Domain.User {
+            return new () {
                 Id = model.Id,
                 Email = new Email(model.Email),
                 Password = new Password(model.Password),
@@ -67,6 +67,12 @@ namespace Database.User {
 
         public bool CompareUsingEmailAndPassword(Email email, Password password) {
             return Email == email.Value && Password == password.Value;
+        }
+
+        public void UseDataFrom(Domain.User user) {
+            // this method will compare only email and name
+            if (user.Email != null && user.Email.Value != Email) Email = user.Email.Value;
+            if (user.Name != null && user.Name.Value != Name) Name = user.Name.Value;
         }
      }
 }
