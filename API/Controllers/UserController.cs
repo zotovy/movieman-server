@@ -105,7 +105,11 @@ namespace API.Controllers {
             // Authorize user
             long tokenId = int.Parse(User.Claims.First(x => x.Type == "uid").Value);
             if (id != tokenId) return new ObjectResult(new ForbiddenDto()) { StatusCode = 403 };
-            
+
+            if (body.image == null) {
+                return BadRequest(new NoProfileImageFoundDto());
+            }
+
             // Validate image size
             if (body.image.Length > 1e+6) {
                 return BadRequest(new InvalidProfileImageSizeDto());
@@ -121,6 +125,24 @@ namespace API.Controllers {
             _service.ChangeUserAvatarPath(id, path);
             
             return Ok(path);
+        }
+
+        [HttpPut("{id}"), Authorize, ValidationErrorFilter]
+        public IActionResult UpdateUser(long id, [FromBody] UpdateUserDto body) {
+            // validate
+            var ok = body.Validate();
+            if (ok != null) return BadRequest(ok);
+            
+            // Authorize user
+            long tokenId = int.Parse(User.Claims.First(x => x.Type == "uid").Value);
+            if (id != tokenId) return new ObjectResult(new ForbiddenDto()) { StatusCode = 403 };
+            
+            // Update user
+            var user = body.ToDomain();
+            user.Id = id;
+            _service.UpdateUser(user);
+
+            return Ok(new EmptyOkDto());
         }
     }
 }

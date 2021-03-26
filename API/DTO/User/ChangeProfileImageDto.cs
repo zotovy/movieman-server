@@ -10,4 +10,9 @@ namespace API.DTO.User {
         public bool success => false;
         public string error => "invalid-image-size-error";
     }
+
+    public class NoProfileImageFoundDto {
+        public bool success => false;
+        public string error => "image-required-error";
+    }
 }
