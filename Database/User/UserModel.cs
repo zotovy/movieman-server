@@ -13,17 +13,17 @@ namespace Database.User {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Column("Name", TypeName = "varchar(1000)")]
-        public string Name { get; init; }
+        public string Name { get; set; }
         [Column("Email", TypeName = "varchar(1000)")]
-        public string Email { get; init; }
+        public string Email { get; set; }
         [Column("Password", TypeName = "varchar(1000)")]
-        public string Password { get; init; }
-        public DateTime CreatedAt { get; init; }
-        public List<long> Reviews { get; init; }
-        public List<long> Movies { get; init; }
-        public List<long> Comments { get; init; }
+        public string Password { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public List<long> Reviews { get; set; }
+        public List<long> Movies { get; set; }
+        public List<long> Comments { get; set; }
         [Column("ProfileImagePath", TypeName = "varchar(1000)")]
-        public string ProfileImagePath { get; init; }
+        public string ProfileImagePath { get; set; }
 
         public UserModel() {}
         

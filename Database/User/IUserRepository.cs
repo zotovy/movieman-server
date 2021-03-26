@@ -12,5 +12,6 @@ namespace Database.User {
         public bool CheckEmailUniqueness(Email email);
         #nullable enable
         public UserModel? GetUserById(long id);
+        public void ChangeUserAvatarPath(long id, string path);
     }
 }

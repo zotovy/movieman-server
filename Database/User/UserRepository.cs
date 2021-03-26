@@ -50,5 +50,11 @@ namespace Database.User {
         public UserModel? GetUserById(long id) {
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
+
+        public void ChangeUserAvatarPath(long id, string path) {
+            var user = _context.Users.First(u => u.Id == id);
+            user.ProfileImagePath = path;
+            _context.SaveChanges();
+        }
     }
 }
