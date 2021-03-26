@@ -13,14 +13,17 @@ using Metadata.Services.UserMetadata;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Services.Data;
+using Services.Media;
 
 namespace Services.User {
     public class UserServices : IUserService {
         private readonly IUserRepository _userRepository;
+        private readonly IMediaService _mediaService;
         private readonly IConfiguration _configuration;
 
-        public UserServices(IUserRepository userRepository, IConfiguration configuration) {
+        public UserServices(IUserRepository userRepository, IMediaService mediaService, IConfiguration configuration) {
             _userRepository = userRepository;
+            _mediaService = mediaService;
             _configuration = configuration;
         }
 
@@ -145,5 +148,22 @@ namespace Services.User {
         public Domain.User? GetUser(long id) {
             return _userRepository.GetUserById(id)?.ToDomain();
         }
+
+        public string SaveUserProfileImage(long id, byte[] image) {
+            var filename = $"{id}.jpg"; 
+            
+            // check is user already have custom avatar
+            if (_mediaService.CheckExistUserProfilePicture(filename)) {
+                // delete this file if exists
+                _mediaService.DeleteUserProfilePicture(filename);
+            }
+            
+            // save new file
+            _mediaService.SaveUserProfilePicture(image, filename);
+
+            return $"https://localhost:5001/static/profile-image/{filename}";
+        }
+
+        public void ChangeUserAvatarPath(long id, string path) => _userRepository.ChangeUserAvatarPath(id, path);
     }
 }

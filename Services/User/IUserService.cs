@@ -10,5 +10,7 @@ namespace Services.User {
         public ReauthenticateResponse ReauthenticateUser(ReauthenticateRequest data);
         #nullable enable
         public Domain.User? GetUser(long id);
+        public string SaveUserProfileImage(long id, byte[] image);
+        public void ChangeUserAvatarPath(long id, string path);
     }
 }
