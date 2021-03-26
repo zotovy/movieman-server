@@ -10,5 +10,7 @@ namespace Database.User {
         public void SaveChanges();
         public UserModel Add(Domain.User user);
         public bool CheckEmailUniqueness(Email email);
+        #nullable enable
+        public UserModel? GetUserById(long id);
     }
 }

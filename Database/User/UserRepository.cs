@@ -45,5 +45,10 @@ namespace Database.User {
                 .FirstOrDefault(u => u.Email == email.Value);
             return founded == null;
         }
+
+        #nullable enable
+        public UserModel? GetUserById(long id) {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
     }
 }
