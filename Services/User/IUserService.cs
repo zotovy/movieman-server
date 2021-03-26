@@ -8,5 +8,7 @@ namespace Services.User {
         public LoginResponse LoginUser(Email email, Password password);
         public SignupResponse SignupUser(SignupRaw user);
         public ReauthenticateResponse ReauthenticateUser(ReauthenticateRequest data);
+        #nullable enable
+        public Domain.User? GetUser(long id);
     }
 }

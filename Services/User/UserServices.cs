@@ -98,14 +98,18 @@ namespace Services.User {
             var model = _userRepository.Add(user);
             _userRepository.SaveChanges();
 
-            return new SignupResponse(true, model.Id);
+            // create tokens
+            var access = _createToken(TokenType.Access, model.Id);
+            var refresh = _createToken(TokenType.Refresh, model.Id);
+
+            return new SignupResponse(true, model.Id, access, refresh);
         }
 
         public ReauthenticateResponse ReauthenticateUser(ReauthenticateRequest data) {
             // Validate giving token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:secret"]));
-            
+
             try {
                 var a = tokenHandler.ValidateToken(
                     data.refreshToken,
@@ -135,6 +139,11 @@ namespace Services.User {
                 Success = true,
                 Tokens = new AuthTokens(access, refresh),
             };
+        }
+
+        #nullable enable
+        public Domain.User? GetUser(long id) {
+            return _userRepository.GetUserById(id)?.ToDomain();
         }
     }
 }
