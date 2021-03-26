@@ -21,6 +21,8 @@ namespace API {
             Configuration = configuration;
         }
 
+        readonly string MyAllowSpecificOrigins = "";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -55,7 +57,16 @@ namespace API {
                 x.DefaultApiVersion = new ApiVersion(1, 0);  
                 x.AssumeDefaultVersionWhenUnspecified = true;  
                 x.ReportApiVersions = true;  
-            }); 
+            });
+
+            services.AddCors(options =>
+                {
+                    options.AddPolicy(name: "ApiCorsPolicy",
+                                      builder =>
+                                      {
+                                          builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                                      });
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,7 +79,9 @@ namespace API {
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(
+                    options =>   options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
+                        );
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
