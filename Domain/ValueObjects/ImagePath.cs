@@ -13,7 +13,7 @@ namespace Domain.ValueObjects.Movie {
         public ImagePath() { }
 
         public ImagePath(string value) {
-            if (!Validator.IsMatch(value)) {
+            if (value != null && !Validator.IsMatch(value)) {
                 throw new ArgumentException($"{value} is invalid ImagePath value.");
             }
 
