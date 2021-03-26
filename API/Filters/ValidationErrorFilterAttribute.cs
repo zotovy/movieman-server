@@ -11,10 +11,14 @@ namespace API.Filters {
             if (exceptionType == typeof(ArgumentException)) {
                 Console.WriteLine(context.Exception.Message);
                 
+                var error = "validation-error";
+                if (context.Exception.Message == "Email already in used") error = "email-unique-error";
+                
                 context.Result = new JsonResult(new Dictionary<string, dynamic> {
                     { "success", false },
-                    { "error", "validation-error" }
+                    { "error", error }
                 });
+                context.HttpContext.Response.StatusCode = 400;
                 context.ExceptionHandled = true;
             }
         }

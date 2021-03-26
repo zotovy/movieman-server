@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace API.DTO.User {
     public class UserAuthTokensDTO {
-        public long id { get; set; }
+        public long uid { get; set; }
         public Dictionary<string, string> tokens { get; set; } 
 
         public UserAuthTokensDTO() { }
@@ -11,7 +11,7 @@ namespace API.DTO.User {
         public static LoginRequestNotFound NotFound => new LoginRequestNotFound();
 
         public UserAuthTokensDTO(long id, string access, string refresh) {
-            this.id = id;
+            this.uid = id;
             tokens = new Dictionary<string, string> {
                 { "access", access },
                 { "refresh", refresh }

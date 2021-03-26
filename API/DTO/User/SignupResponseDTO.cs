@@ -3,12 +3,12 @@ using Metadata.Objects;
 namespace API.DTO.User {
     public class SignupResponseDTO {
         public bool success { get; set; }
-        public long id { get; set; }
+        public long uid { get; set; }
         public TokensDto tokens { get; set; }
 
         public SignupResponseDTO(bool success, long userId, AuthTokens tokens) {
             this.success = success;
-            this.id = userId;
+            this.uid = userId;
             this.tokens = new() {
                 access = tokens.Access,
                 refresh = tokens.Refresh,
