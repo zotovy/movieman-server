@@ -13,6 +13,8 @@ namespace Database.Comment {
         public long Author { get; set; }
         [Column("Content", TypeName = "varchar(1000)")]
         public string Content { get; set; }
+        [ForeignKey("Review")]
+        public long Review { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Domain.Comment ToDomain() {
@@ -21,6 +23,7 @@ namespace Database.Comment {
                 Content = new CommentContent(Content),
                 Id = Id,
                 CreatedAt = CreatedAt,
+                Review = new Ref<Domain.Review>(Review)
             };
         }
     }
