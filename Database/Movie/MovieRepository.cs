@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Movie {
@@ -72,6 +73,25 @@ namespace Database.Movie {
         public Domain.Movie? GetMovieByExternalId(long kpId) {
             var model = _context.Movies.FirstOrDefault(x => x.KpId == kpId);
             return model == null ? null : model.ToDomain();
+        }
+
+        public MovieModel AddReview(long movieId, long reviewId) {
+            var movie = _context.Movies.FirstOrDefault(x => x.Id == movieId);
+
+            // Throw error if no movie found
+            if (movie == null) throw new ArgumentException("No movie found");
+            
+            movie.Reviews.Add(reviewId);
+            return movie;
+        }
+
+        public void AddNewRating(MovieModel model, Rating rating) {
+            var amountOfReviews = model.Reviews.Select(x => x).ToList().Count;
+            var average = model.Rating * (amountOfReviews - 1);
+            var newAverage = average + rating.Value;
+            var newRating = newAverage / amountOfReviews;
+
+            model.Rating = newRating;
         }
     }
 }

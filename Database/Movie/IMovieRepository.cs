@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Domain.ValueObjects;
 
 namespace Database.Movie {
     public interface IMovieRepository {
@@ -11,5 +12,7 @@ namespace Database.Movie {
         #nullable enable
         public Domain.Movie? GetMovieByExternalId(long kpId);
         public void AddMovie(Domain.Movie movie);
+        public MovieModel AddReview(long movieId,  long reviewId);
+        public void AddNewRating(MovieModel model, Rating rating);
     }
 }
