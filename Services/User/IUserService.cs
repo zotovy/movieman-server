@@ -13,5 +13,6 @@ namespace Services.User {
         public string SaveUserProfileImage(long id, byte[] image);
         public void ChangeUserAvatarPath(long id, string path);
         public void UpdateUser(Domain.User user);
+        public bool IsUserExists(long id);
     }
 }
