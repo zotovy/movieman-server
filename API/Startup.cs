@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text;
 using Database;
+using Database.Comment;
 using Database.Movie;
 using Database.Review;
 using Database.User;
@@ -17,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Services.ExternalMovieApi;
 using Services.Media;
 using Services.Movie;
+using Services.Review;
 using Services.User;
 
 namespace API {
@@ -41,6 +43,8 @@ namespace API {
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IReviewService, ReviewService>();
             services.AddControllers();
 
             services.AddAuthentication(options => {
