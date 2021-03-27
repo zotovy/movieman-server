@@ -46,7 +46,7 @@ namespace API.Controllers {
         public IActionResult GetMovie(long id) {
             var movie = _movieServices.GetMovie(id);
             if (movie == null) return NotFound(new NotFoundDto());
-            return Ok(new MovieDto(movie));
+            return Ok(new MovieDetailDto(movie));
         }
 
         [HttpGet("/api/{v:apiVersion}/movies/get-by-genre/{genre}")]

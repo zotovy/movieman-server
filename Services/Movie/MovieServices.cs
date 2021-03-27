@@ -56,7 +56,14 @@ namespace Services.Movie {
         }
         
 
-        public Domain.Movie GetMovie(long id) => _movieRepository.GetMovie(id);
+        public Domain.Movie GetMovie(long id) {
+            var movie = _movieRepository.GetMovie(id);
+            if (movie == null) return null;
+            
+            var reviews = _reviewRepository.GetMoviesReviews(movie.Id);
+            movie.Reviews = reviews.Select(x => new Ref<Review>(x.Id, x));
+            return movie;
+        }
 
         public async Task<ImmutableList<Domain.Movie>> GetMoviesByGenre(MovieGenre genre) {
             // get movies from external api
