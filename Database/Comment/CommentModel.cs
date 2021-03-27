@@ -17,6 +17,16 @@ namespace Database.Comment {
         public long Review { get; set; }
         public DateTime CreatedAt { get; set; }
 
+        public CommentModel() { }
+
+        public CommentModel(Domain.Comment comment) {
+            Id = comment.Id;
+            Author = comment.Author.Id;
+            Content = comment.Content.Value;
+            Review = comment.Review.Id;
+            CreatedAt = comment.CreatedAt;
+        }
+
         public Domain.Comment ToDomain() {
             return new Domain.Comment {
                 Author = new Ref<Domain.User>(Author),
