@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using Database;
 using Database.Movie;
+using Database.Review;
 using Database.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +40,7 @@ namespace API {
             services.AddScoped<IMovieServices, MovieServices>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMediaService, MediaService>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddControllers();
 
             services.AddAuthentication(options => {

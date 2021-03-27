@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace API.DTO {
     public sealed class ValidateErrorDto {
@@ -10,6 +11,10 @@ namespace API.DTO {
 
         public ValidateErrorDto(List<ValidateErrorElement> errors) {
             this.errors = errors;
+        }
+
+        public ValidateErrorDto(ValidateErrorElement element) {
+            errors = new List<ValidateErrorElement> { element };
         }
 
         public ValidateErrorDto(List<ValidationFailure> failures) {
