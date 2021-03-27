@@ -13,11 +13,11 @@ namespace Database.Review {
         public long Id { get; set; }
         [ForeignKey("Movie")]
         public long Movie { get; set; }
-        [ForeignKey("Author")]
+        [ForeignKey("User")]
         public long Author { get; set; }
         [ForeignKey("Comment")]
         public List<long> Comments { get; set; }
-        [Column("Content", TypeName = "varchar(1000)")]
+        [Column("Content", TypeName = "varchar(2048)")]
         public string Content { get; set; }
         [Column("Rating", TypeName = "double precision")]
         public double Rating { get; set; }
@@ -33,6 +33,18 @@ namespace Database.Review {
                 Rating = new Rating(Rating),
                 CreatedAt = CreatedAt,
             };
+        }
+
+        public ReviewModel() { }
+
+        public ReviewModel(Domain.Review review) {
+            Id = review.Id;
+            Movie = review.Movie.Id;
+            Author = review.Author.Id;
+            Comments = review.Comments.Select(x => x.Id).ToList();
+            Content = review.Content.Value;
+            Rating = review.Rating.Value;
+            CreatedAt = review.CreatedAt;
         }
     }
 }
