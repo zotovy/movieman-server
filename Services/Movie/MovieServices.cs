@@ -1,17 +1,22 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using Database.Movie;
+using Database.Review;
+using Domain;
 using Domain.ValueObjects.Movie;
 using Services.ExternalMovieApi;
 
 namespace Services.Movie {
     public sealed class MovieServices : IMovieServices {
         private readonly IMovieRepository _movieRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IExternalMovieApiServices _externalMovieApiServices;
 
-        public MovieServices(IMovieRepository movieRepository, IExternalMovieApiServices externalMovieApiServices) {
+        public MovieServices(IMovieRepository movieRepository, IReviewRepository reviewRepository, IExternalMovieApiServices externalMovieApiServices) {
             _movieRepository = movieRepository;
+            _reviewRepository = reviewRepository;
             _externalMovieApiServices = externalMovieApiServices;
         }
 
@@ -49,11 +54,7 @@ namespace Services.Movie {
             var movies = await _externalMovieApiServices.SearchMovie(name);
             return SaveNotSavedMovies(movies);
         }
-
-        public void CreateMovie(Domain.Movie movie) {
-            _movieRepository.AddMovie(movie);
-            _movieRepository.SaveChanges();
-        }
+        
 
         public Domain.Movie GetMovie(long id) => _movieRepository.GetMovie(id);
 
@@ -62,5 +63,18 @@ namespace Services.Movie {
             var movies = await _externalMovieApiServices.GetMoviesByGenre(genre);
             return SaveNotSavedMovies(movies);
         }
+
+        public void WriteReview(long movieId, Review review) {
+            // переписать этот пиздец 
+            var model = _reviewRepository.CreateReview(review);
+            _movieRepository.SaveChanges(); // used to update review id
+            var movie = _movieRepository.AddReview(movieId, model.Id);
+            _movieRepository.AddNewRating(movie, review.Rating);
+            _movieRepository.SaveChanges();
+        }
+
+        public ImmutableList<Review> GetMoviesReviews(long id) => _reviewRepository.GetMoviesReviews(id);
+
+        public bool Exists(long id) => GetMovie(id) != null;
     }
 }

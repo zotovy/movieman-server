@@ -8,7 +8,9 @@ namespace Services.Movie {
         public ImmutableList<Domain.Movie> GetPopularMovies();
         public Task<ImmutableList<Domain.Movie>> SearchMovie(string name);
         public Domain.Movie GetMovie(long id);
-        public void CreateMovie(Domain.Movie movie);
         public Task<ImmutableList<Domain.Movie>> GetMoviesByGenre(MovieGenre genre);
+        public void WriteReview(long movieId, Domain.Review review);
+        public ImmutableList<Domain.Review> GetMoviesReviews(long id);
+        public bool Exists(long id);
     }
 }
