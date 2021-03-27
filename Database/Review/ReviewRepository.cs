@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Linq;
+using Database.Comment;
 using Domain;
 
 namespace Database.Review {
@@ -8,6 +9,10 @@ namespace Database.Review {
 
         public ReviewRepository(DatabaseContext context) {
             _context = context;
+        }
+
+        public bool Exists(long id) {
+            return _context.Reviews.FirstOrDefault(x => x.Id == id) != null;
         }
 
         public ImmutableList<Domain.Review> GetMoviesReviews(long movieId) {
@@ -29,15 +34,25 @@ namespace Database.Review {
                 review.Comments = comments
                     .Select(x => new Ref<Domain.Comment>(x.Id, x.ToDomain()))
                     .ToList();
+
+                for (int i = 0; i < comments.Count; i++) {
+                    var commentAuthor = _context.Users.First(x => x.Id == comments[i].Author);
+                    review.Comments[0].Model.Author = new Ref<Domain.User>(commentAuthor.Id, commentAuthor.ToDomain());
+                }
             }
 
             return reviews.ToImmutableList();
         }
 
-        public ReviewModel CreateReview(Domain.Review review) {
+        public ReviewModel AddReview(Domain.Review review) {
             var model = new ReviewModel(review);
             _context.Reviews.Add(model);
             return model;
+        }
+
+        public void AddCommentToReview(long id, Domain.Comment comment) {
+            var model = _context.Reviews.First(x => x.Id == id);
+            model.Comments.Add(comment.Id);
         }
     }
 }

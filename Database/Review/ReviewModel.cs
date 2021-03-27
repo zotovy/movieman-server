@@ -26,7 +26,7 @@ namespace Database.Review {
         public Domain.Review ToDomain() {
             return new Domain.Review {
                 Author = new Ref<Domain.User>(Author),
-                Comments = Comments.Select(x => new Ref<Domain.Comment>(x)),
+                Comments = Comments.Select(x => new Ref<Domain.Comment>(x)).ToList(),
                 Content = new ReviewContent(Content),
                 Id = Id,
                 Movie = new Ref<Domain.Movie>(Movie),
