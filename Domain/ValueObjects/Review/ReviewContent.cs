@@ -5,7 +5,7 @@ namespace Domain.ValueObjects.Review {
         public string Value { get; }
 
         public static bool Validate(string value) {
-            return value.Length > 0 && value.Length <= 1000;
+            return value.Length > 0 && value.Length <= 2048;
         }
 
         public ReviewContent(string value) {
