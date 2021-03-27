@@ -13,6 +13,7 @@ namespace API.DTO.Review {
         public List<long> comments { get; set; }
         public string content { get; set; }
         public DateTime createdAt { get; set; }
+        public double rating { get; set; }
 
         public ReviewDto(Domain.Review review) {
             id = review.Id;
@@ -21,6 +22,7 @@ namespace API.DTO.Review {
             comments = review.Comments.Select(x => x.Id).ToList();
             content = review.Content.Value;
             createdAt = review.CreatedAt;
+            rating = review.Rating.Value;
         }
     }
 }

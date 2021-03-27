@@ -140,6 +140,7 @@ namespace Services.User {
 
             return new ReauthenticateResponse {
                 Success = true,
+                uid = data.uid,
                 Tokens = new AuthTokens(access, refresh),
             };
         }
