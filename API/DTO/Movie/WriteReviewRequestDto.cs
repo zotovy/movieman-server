@@ -37,7 +37,7 @@ namespace API.DTO.Movie {
             RuleFor(x => x.movie).NotEmpty();
             RuleFor(x => x.author).NotEmpty();
             RuleFor(x => x.content).NotEmpty().MaximumLength(2048);
-            RuleFor(x => x.rating).NotEmpty().LessThanOrEqualTo(5).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.rating).NotEmpty().LessThanOrEqualTo(10).GreaterThanOrEqualTo(1);
         }
     }
 
