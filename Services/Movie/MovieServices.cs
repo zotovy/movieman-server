@@ -61,7 +61,7 @@ namespace Services.Movie {
             if (movie == null) return null;
             
             var reviews = _reviewRepository.GetMoviesReviews(movie.Id);
-            movie.Reviews = reviews.Select(x => new Ref<Review>(x.Id, x));
+            movie.Reviews = reviews.Select(x => new Ref<Domain.Review>(x.Id, x));
             return movie;
         }
 
@@ -71,16 +71,16 @@ namespace Services.Movie {
             return SaveNotSavedMovies(movies);
         }
 
-        public void WriteReview(long movieId, Review review) {
+        public void WriteReview(long movieId, Domain.Review review) {
             // переписать этот пиздец 
-            var model = _reviewRepository.CreateReview(review);
+            var model = _reviewRepository.AddReview(review);
             _movieRepository.SaveChanges(); // used to update review id
             var movie = _movieRepository.AddReview(movieId, model.Id);
             _movieRepository.AddNewRating(movie, review.Rating);
             _movieRepository.SaveChanges();
         }
 
-        public ImmutableList<Review> GetMoviesReviews(long id) => _reviewRepository.GetMoviesReviews(id);
+        public ImmutableList<Domain.Review> GetMoviesReviews(long id) => _reviewRepository.GetMoviesReviews(id);
 
         public bool Exists(long id) => GetMovie(id) != null;
     }

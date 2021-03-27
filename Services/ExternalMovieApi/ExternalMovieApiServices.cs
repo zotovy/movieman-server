@@ -37,7 +37,7 @@ namespace Services.ExternalMovieApi {
                     .ToList(),
                 Poster = new ImagePath(_externalApiRoutes.Image(rawMovie["backdrop_path"] ?? rawMovie["poster_path"])),
                 Rating = new Rating(0),
-                Reviews = new List<Ref<Review>>(),
+                Reviews = new List<Ref<Domain.Review>>(),
                 Title = new Title(rawMovie["title"]),
                 Year = new Year((rawMovie["release_date"] as string ?? "2000").Split("-")[0]),
                 KpId = rawMovie["id"]

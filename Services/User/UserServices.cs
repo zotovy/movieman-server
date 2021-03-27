@@ -87,7 +87,7 @@ namespace Services.User {
                 Movies = new List<Ref<Domain.Movie>>(),
                 Name = new Name(raw.Name),
                 Password = new Password(raw.Password),
-                Reviews = new List<Ref<Review>>(),
+                Reviews = new List<Ref<Domain.Review>>(),
                 CreatedAt = DateTime.Now,
                 ProfileImagePath = new ImagePath()
             };
