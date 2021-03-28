@@ -24,7 +24,7 @@ namespace Database.User {
         public List<long> Movies { get; set; }
         public List<long> Comments { get; set; }
         [Column("ProfileImagePath", TypeName = "varchar(1000)")]
-        public string ProfileImagePath { get; set; }
+        public string? ProfileImagePath { get; set; }
 
         public UserModel() {}
         

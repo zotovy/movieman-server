@@ -19,6 +19,7 @@ namespace Services.ExternalMovieApi {
         public ExternalMovieApiServices(IConfiguration configuration) {
             var externalApiKey = configuration["ExternalAPI:api_key"];
             _externalApiRoutes = new ExternalApiRoutes(externalApiKey);
+            _httpClient.Timeout = TimeSpan.FromSeconds(5);
         }
 
         private async Task<JsonObjectType> _fetchAsJson(string route) {

@@ -5,13 +5,9 @@ namespace Domain.ValueObjects.Comment {
     public sealed record CommentContent {
         public string Value { get; }
 
-        public static readonly Regex Validator = new Regex(
-            "^[A-Za-z0-9а-яёА-ЯЁ _]*[A-Za-z0-9а-яёА-ЯЁ][A-Za-z0-9 _а-яёА-ЯЁ]*$",
-            RegexOptions.Singleline | RegexOptions.Compiled
-        );
 
         public CommentContent(string value) {
-            if (!Validator.IsMatch(value) || value.Length > 1000) {
+            if (value.Length > 1000 || value.Length == 0) {
                 throw new ArgumentException($"{value} is invalid CommentContent value.");
             }
 

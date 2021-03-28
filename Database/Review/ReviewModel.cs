@@ -47,12 +47,20 @@ namespace Database.Review {
 
         public ReviewModel(Domain.Review review) {
             Id = review.Id;
-            Movie = new MovieModel(review.Movie.Model);
-            Author = new UserModel(review.Author.Model);
+            Movie = review.Movie.Model == null
+                ? null
+                : new MovieModel(review.Movie.Model);
+            Author = review.Author.Model == null
+                ? null
+                : new UserModel(review.Author.Model);
             Comments = review.Comments.Select(x => new CommentModel(x.Model)).ToList();
+            CommentIds = review.Comments.Select(x => x.Id).ToList();
             Content = review.Content.Value;
             Rating = review.Rating.Value;
             CreatedAt = review.CreatedAt;
+            MovieId = review.Movie.Id;
+            AuthorId = review.Author.Id;
+
         }
     }
 }

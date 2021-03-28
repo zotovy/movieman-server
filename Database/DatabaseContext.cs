@@ -44,6 +44,9 @@ namespace Database {
                 .Metadata
                 .SetValueComparer(valueComparer);
 
+            builder.Entity<UserModel>()
+                .Property(u => u.ProfileImagePath).IsRequired(false);
+
             // builder.Entity<CommentModel>()
             //     .HasOne(c => c.ReviewModel)
             //     .WithMany(r => r.CommentModels)

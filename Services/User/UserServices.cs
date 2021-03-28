@@ -162,7 +162,7 @@ namespace Services.User {
             // save new file
             _mediaService.SaveUserProfilePicture(image, filename);
 
-            return $"https://localhost:5001/static/profile-image/{filename}";
+            return $"{_configuration["Server"]}/static/profile-image/{filename}";
         }
 
         public void ChangeUserAvatarPath(long id, string path) => _userRepository.ChangeUserAvatarPath(id, path);

@@ -34,6 +34,9 @@ namespace Database.Movie {
             Rating = movie.Rating.Value;
             Title = movie.Title.Value;
             Year = movie.Year.Value;
+            ReviewIds = movie.Reviews == null
+                ? new List<long>()
+                : movie.Reviews.Select(x => x.Id).ToList();
         }
 
         public Domain.Movie ToDomain() {
