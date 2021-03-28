@@ -34,7 +34,7 @@ namespace API {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddDbContext<DatabaseContext>(options =>
-                options.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=7852")
+                options.UseNpgsql(Configuration["ConnectionStrings:postgres"])
             );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserServices>();
