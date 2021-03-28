@@ -31,7 +31,7 @@ namespace API.Controllers {
         [HttpGet("{id}"), AllowAnonymous]
         public IActionResult GetReview(long id) {
             var review = _reviewService.GetReview(id);
-            return Ok(new ReviewDto(review));
+            return Ok(new DetailReviewDto(review));
         }
 
         [HttpPost("{id}/comment"), Authorize, ValidationErrorFilter]

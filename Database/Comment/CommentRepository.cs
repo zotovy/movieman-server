@@ -13,10 +13,11 @@ namespace Database.Comment {
 
         public void SaveChanges() => _context.SaveChanges();
 
-        public CommentModel AddModel(Domain.Comment comment) {
+        public long AddModel(Domain.Comment comment) {
             var model = new CommentModel(comment);
             _context.Comments.Add(model);
-            return model;
+             SaveChanges();
+            return model.Id;
         }
 
         public ImmutableList<Domain.Comment> GetReviewComments(long id) {

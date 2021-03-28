@@ -52,14 +52,12 @@ namespace Database.Review {
             return model;
         }
 
-        public void AddCommentToReview(long id, Domain.Comment comment) {
+        public void AddCommentToReview(long id, long commentId) {
             var model = _context.Reviews.First(x => x.Id == id);
-
-            var commentModel = new CommentModel { Id = comment.Id };
-            model.Comments.Add(commentModel);
+            model.CommentIds.Add(commentId);
+            _context.SaveChanges();
         }
 
-        #nullable enable
         public Domain.Review? GetReview(long id) {
             var model = (from review in _context.Reviews
                 where review.Id == id
@@ -68,9 +66,20 @@ namespace Database.Review {
                 select new {
                     Author = author,
                     Movie = movie,
-                    Comments = (from comment in _context.Comments
+                    Comments = (
+                        from comment in _context.Comments
                         where review.CommentIds.Contains(comment.Id)
-                        select comment).ToList(),
+                        join commentAuthor in _context.Users on comment.Author equals commentAuthor
+                        select new CommentModel {
+                            Author = commentAuthor,
+                            Content = comment.Content,
+                            Id = comment.Id,
+                            Review = comment.Review,
+                            ReviewId = comment.ReviewId,
+                            AuthorId = comment.AuthorId,
+                            CreatedAt = comment.CreatedAt,
+                        }
+                    ).ToList(),
                     review.Id,
                     review.Content,
                     review.Rating,
@@ -79,6 +88,8 @@ namespace Database.Review {
 
             if (model == null) return null;
 
+            model.Movie.Reviews = null;
+            
             return new Domain.Review {
                 Author = new Ref<Domain.User>(model.Author.Id, model.Author.ToDomain()),
                 Comments = model.Comments.Select(x => new Ref<Domain.Comment>(x.Id, x.ToDomain())).ToList(),

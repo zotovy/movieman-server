@@ -16,10 +16,8 @@ namespace Services.Review {
         public bool Exists(long id) => _reviewRepository.Exists(id);
 
         public void WriteComment(long id, Comment comment) {
-            var model = _commentRepository.AddModel(comment);
-            _commentRepository.SaveChanges();
-            _reviewRepository.AddCommentToReview(id, model.ToDomain());
-            _commentRepository.SaveChanges();
+            var modelId = _commentRepository.AddModel(comment);
+            _reviewRepository.AddCommentToReview(id, modelId);
         }
 
         public ImmutableList<Comment> GetReviewComments(long id) => _commentRepository.GetReviewComments(id);

@@ -13,7 +13,7 @@ namespace Database.Movie {
         public long Id { get; set; }
         public long KpId { get; set; }
         public List<long> ReviewIds { get; set; }
-        public List<ReviewModel> Reviews { get; set; }
+        public List<ReviewModel>? Reviews { get; set; }
         [Column("Poster", TypeName = "varchar(1000)")]
         public string Poster { get; set; }
         public List<string> Genres { get; set; }

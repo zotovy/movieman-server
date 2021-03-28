@@ -6,7 +6,7 @@ namespace Domain.ValueObjects.Comment {
         public string Value { get; }
 
         public static readonly Regex Validator = new Regex(
-            "(?=[a-zA-Zа-яёА-ЯЁ0-9äöüÄÖÜ\"'?!]+[\\w-])(?=.{1,100}$).*",
+            "^[A-Za-z0-9а-яёА-ЯЁ _]*[A-Za-z0-9а-яёА-ЯЁ][A-Za-z0-9 _а-яёА-ЯЁ]*$",
             RegexOptions.Singleline | RegexOptions.Compiled
         );
 

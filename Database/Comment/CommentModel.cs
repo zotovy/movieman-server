@@ -27,8 +27,8 @@ namespace Database.Comment {
             Content = comment.Content.Value;
             ReviewId = comment.Review.Id;
             CreatedAt = comment.CreatedAt;
-            Author = new UserModel(comment.Author.Model);
-            Review = new ReviewModel(comment.Review.Model);
+            Author = comment.Author.Model != null ? new UserModel(comment.Author.Model) : null;
+            Review = comment.Review.Model != null ? new ReviewModel(comment.Review.Model) : null;
         }
 
         public Domain.Comment ToDomain() {
