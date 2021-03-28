@@ -6,5 +6,6 @@ namespace Database.Review {
         public ImmutableList<Domain.Review> GetMoviesReviews(long movieId);
         public ReviewModel AddReview(Domain.Review review);
         public void AddCommentToReview(long id, Domain.Comment comment);
+        public Domain.Review? GetReview(long id);
     }
 }

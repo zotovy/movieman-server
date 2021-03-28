@@ -43,7 +43,26 @@ namespace Database {
                 )
                 .Metadata
                 .SetValueComparer(valueComparer);
-            
+
+            // builder.Entity<CommentModel>()
+            //     .HasOne(c => c.ReviewModel)
+            //     .WithMany(r => r.CommentModels)
+            //     .HasForeignKey(c => c.Review);
+
+            builder.Entity<ReviewModel>()
+                .HasMany(r => r.Comments)
+                .WithOne(c => c.Review)
+                .HasForeignKey(c => c.ReviewId);
+
+            builder.Entity<ReviewModel>()
+                .HasOne(r => r.Author)
+                .WithMany()
+                .HasForeignKey(x => x.AuthorId);
+
+            builder.Entity<ReviewModel>()
+                .HasOne(r => r.Movie)
+                .WithMany(m => m.Reviews);
+
             builder.ApplyConfiguration(new UserConfiguration());
         }
     }

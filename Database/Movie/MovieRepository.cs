@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Database.Review;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -80,8 +81,9 @@ namespace Database.Movie {
 
             // Throw error if no movie found
             if (movie == null) throw new ArgumentException("No movie found");
-            
-            movie.Reviews.Add(reviewId);
+
+            var review = new ReviewModel { Id = reviewId };
+            movie.Reviews.Add(review);
             return movie;
         }
 

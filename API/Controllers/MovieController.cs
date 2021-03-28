@@ -62,7 +62,7 @@ namespace API.Controllers {
         [AllowAnonymous, ValidationErrorFilter]
         public IActionResult GetMoviesReviews(long id) {
             var reviews = _movieServices.GetMoviesReviews(id);
-            return Ok(reviews.Select(x => new DetailReviewDto(x)));
+            return Ok(reviews.Select(x => new DetailReviewWithoutMovieDto(x)));
         }
 
         [HttpPost("{id}/review")]

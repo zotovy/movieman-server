@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Database.Comment;
 using Database.Review;
 using Domain;
@@ -18,6 +19,11 @@ namespace Services.Review {
             var model = _commentRepository.AddModel(comment);
             _commentRepository.SaveChanges();
             _reviewRepository.AddCommentToReview(id, model.ToDomain());
+            _commentRepository.SaveChanges();
         }
+
+        public ImmutableList<Comment> GetReviewComments(long id) => _commentRepository.GetReviewComments(id);
+
+        public Domain.Review GetReview(long id) => _reviewRepository.GetReview(id);
     }
 }

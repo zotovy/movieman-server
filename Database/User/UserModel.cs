@@ -8,6 +8,7 @@ using Domain.ValueObjects.Movie;
 using Domain.ValueObjects.User;
 
 namespace Database.User {
+    [Table("Users")]
     public sealed record UserModel {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

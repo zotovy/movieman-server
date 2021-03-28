@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Database.Review;
 using Domain;
 using Domain.ValueObjects;
 using Domain.ValueObjects.Movie;
@@ -10,9 +11,9 @@ namespace Database.Movie {
     public sealed record MovieModel {
         [Key]
         public long Id { get; set; }
-        [ForeignKey("Review")]
         public long KpId { get; set; }
-        public List<long> Reviews { get; set; }
+        public List<long> ReviewIds { get; set; }
+        public List<ReviewModel> Reviews { get; set; }
         [Column("Poster", TypeName = "varchar(1000)")]
         public string Poster { get; set; }
         public List<string> Genres { get; set; }
@@ -26,7 +27,7 @@ namespace Database.Movie {
 
         public MovieModel(Domain.Movie movie) {
             Id = movie.Id;
-            Reviews = movie.Reviews.Select(x => x.Id).ToList();
+            Reviews = movie.Reviews.Select(x => new ReviewModel(x.Model)).ToList();
             KpId = movie.KpId;
             Poster = movie.Poster.Value;
             Genres = movie.Genres.Select(x => x.Value).ToList();
@@ -41,7 +42,9 @@ namespace Database.Movie {
                 Id = Id,
                 Poster = new ImagePath(Poster),
                 Rating = new Rating(Rating),
-                Reviews = Reviews.Select(r => new Ref<Domain.Review>(r)).ToList(),
+                Reviews = Reviews == null 
+                    ?  ReviewIds.Select(r => new Ref<Domain.Review>(r)).ToList() 
+                    :  Reviews.Select(r => new Ref<Domain.Review>(r.Id, r.ToDomain())).ToList(),
                 Title = new Title(Title),
                 Year = new Year(Year),
                 KpId = KpId

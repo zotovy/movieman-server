@@ -1,39 +1,43 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Database.Review;
+using Database.User;
 using Domain;
 using Domain.ValueObjects.Comment;
 
 namespace Database.Comment {
-    public sealed record CommentModel {
+    public class CommentModel {
         
         [Key]
         public long Id { get; set; }
-        [ForeignKey("User")]
-        public long Author { get; set; }
+        public long AuthorId { get; set; }
+        public UserModel? Author { get; set; }
+        public long ReviewId { get; set; }
+        public ReviewModel? Review { get; set; }
         [Column("Content", TypeName = "varchar(1000)")]
         public string Content { get; set; }
-        [ForeignKey("Review")]
-        public long Review { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public CommentModel() { }
 
         public CommentModel(Domain.Comment comment) {
             Id = comment.Id;
-            Author = comment.Author.Id;
+            AuthorId = comment.Author.Id;
             Content = comment.Content.Value;
-            Review = comment.Review.Id;
+            ReviewId = comment.Review.Id;
             CreatedAt = comment.CreatedAt;
+            Author = new UserModel(comment.Author.Model);
+            Review = new ReviewModel(comment.Review.Model);
         }
 
         public Domain.Comment ToDomain() {
             return new Domain.Comment {
-                Author = new Ref<Domain.User>(Author),
+                Author = new Ref<Domain.User>(AuthorId, Author?.ToDomain()),
                 Content = new CommentContent(Content),
                 Id = Id,
                 CreatedAt = CreatedAt,
-                Review = new Ref<Domain.Review>(Review)
+                Review = new Ref<Domain.Review>(ReviewId, Review?.ToDomain())
             };
         }
     }

@@ -1,6 +1,7 @@
 using System.Linq;
 using API.DTO;
 using API.DTO.Comment;
+using API.DTO.Review;
 using API.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,18 @@ namespace API.Controllers {
         public ReviewController(IReviewService reviewService, IUserService userService) {
             _reviewService = reviewService;
             _userService = userService;
+        }
+
+        [HttpGet("{id}/comments"), AllowAnonymous]
+        public IActionResult GetReviewComments(long id) {
+            var comments = _reviewService.GetReviewComments(id);
+            return Ok(comments.Select(x => new CommentDto(x)).ToList());
+        }
+
+        [HttpGet("{id}"), AllowAnonymous]
+        public IActionResult GetReview(long id) {
+            var review = _reviewService.GetReview(id);
+            return Ok(new ReviewDto(review));
         }
 
         [HttpPost("{id}/comment"), Authorize, ValidationErrorFilter]

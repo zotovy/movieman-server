@@ -5,14 +5,16 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210328083451_specify table for users 4")]
+    partial class specifytableforusers4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,9 +82,6 @@ namespace Database.Migrations
 
                     b.Property<double>("Rating")
                         .HasColumnType("double precision");
-
-                    b.Property<List<long>>("ReviewIds")
-                        .HasColumnType("bigint[]");
 
                     b.Property<string>("Title")
                         .HasColumnType("varchar(1000)")
