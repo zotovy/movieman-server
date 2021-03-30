@@ -92,7 +92,7 @@ namespace API {
 
             app.UseRouting();
             app.UseCors(
-                options => options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
+                options => options.WithOrigins(Configuration["Client"]).AllowAnyMethod().AllowAnyHeader()
             );
             app.UseAuthentication();
             app.UseAuthorization();
