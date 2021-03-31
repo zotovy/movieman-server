@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data.Entity;
@@ -46,10 +47,27 @@ namespace Database.Review {
             }).ToImmutableList();
         }
 
-        public ReviewModel AddReview(Domain.Review review) {
+        public void AddReview(Domain.Review review) {
             var model = new ReviewModel(review);
             _context.Reviews.Add(model);
-            return model;
+            
+            var movie = _context.Movies.FirstOrDefault(x => x.Id == review.Movie.Id);
+
+            // Throw error if no movie found
+            if (movie == null || movie.Reviews == null) throw new ArgumentException("No movie found");
+            
+            var amountOfReviews = movie.ReviewIds.Select(x => x).ToList().Count;
+            if (amountOfReviews == 0) amountOfReviews = 1;
+            
+            // Calculate new rating 
+            var average = movie.Rating * (amountOfReviews - 1);
+            var newAverage = average + review.Rating.Value;
+            var newRating = newAverage / amountOfReviews;
+            
+            movie.ReviewIds.Add(review.Id);
+            movie.Rating = newRating;
+            
+            _context.SaveChanges();
         }
 
         public void AddCommentToReview(long id, long commentId) {

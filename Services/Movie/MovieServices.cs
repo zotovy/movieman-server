@@ -71,14 +71,7 @@ namespace Services.Movie {
             return SaveNotSavedMovies(movies);
         }
 
-        public void WriteReview(long movieId, Domain.Review review) {
-            // переписать этот пиздец 
-            var model = _reviewRepository.AddReview(review);
-            _movieRepository.SaveChanges(); // used to update review id
-            var movie = _movieRepository.AddReview(movieId, model.Id);
-            _movieRepository.AddNewRating(movie, review.Rating);
-            _movieRepository.SaveChanges();
-        }
+        public void WriteReview(long movieId, Domain.Review review) => _reviewRepository.AddReview(review);
 
         public ImmutableList<Domain.Review> GetMoviesReviews(long id) => _reviewRepository.GetMoviesReviews(id);
 

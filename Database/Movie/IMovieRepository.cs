@@ -12,7 +12,7 @@ namespace Database.Movie {
         #nullable enable
         public Domain.Movie? GetMovieByExternalId(long kpId);
         public void AddMovie(Domain.Movie movie);
-        public Domain.Movie AddReview(long movieId,  long reviewId);
-        public void AddNewRating(Domain.Movie model, Rating rating);
+        public Domain.Movie AddReview(long movieId,  Domain.Review review);
+        public void AddNewRating(long movieId, Rating rating);
     }
 }
