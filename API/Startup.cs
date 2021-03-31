@@ -70,7 +70,7 @@ namespace API {
 
             services.AddCors(options => {
                 options.AddPolicy(name: "ApiCorsPolicy",
-                    builder => { builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader(); });
+                    builder => { builder.WithOrigins(Configuration["Client"]).AllowAnyMethod().AllowAnyHeader(); });
             });
         }
 
